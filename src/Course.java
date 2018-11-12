@@ -40,8 +40,8 @@ public class Course {
 			labGroups.add(new Group("Lab", 10));
 		}
 		
-		 assessments.add(new Assessment("Exam", 50));
-		 assessments.add(new Assessment("Coursework", 50));
+		 assessments.add(new Assessment("Exam", 60));
+		 assessments.add(new Assessment("Coursework", 40));
 		
 	}
 	
@@ -269,7 +269,7 @@ public class Course {
 		System.out.println();
 	}
 	
-	public void printStatistics(School school) {
+	public void printStatistics() {
 		allGroups.clear();
 		if (this.type >= 1) allGroups.addAll(lectureGroups);
 		if (this.type >= 2) allGroups.addAll(tutorialGroups);
@@ -279,7 +279,7 @@ public class Course {
 		
 		for (Group group:allGroups) allStudents.addAll(group.getStudents());
 		
-		HashMap<String, Double> courseOverall = ComputeGrades.calculateCourseAverage(school, allStudents);
+		HashMap<String, Double> courseOverall = ComputeGrades.calculateCourseAverage(this, allStudents);
 		
 		System.out.println();
 		System.out.println("=====================================================");

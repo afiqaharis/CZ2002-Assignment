@@ -16,34 +16,37 @@ public class ComputeGrades {
 		return totalMarks;
 	}
 	
-	public static HashMap<String, Double> calculateCourseAverage(School school, Set<Student> allStudents) {
+	public static HashMap<String, Double> calculateCourseAverage(Course course, Set<Student> allStudents) {
 		HashMap<String, Double> allOverall = new HashMap<String, Double>();
+		Mark selectedResult = null;
 		int numOfStudents = allStudents.size();
 		int sumExam = 0, sumCoursework = 0, sumOverall = 0;
 		double sumGPAExam = 0, sumGPACoursework = 0, sumGPAOverall = 0;
 		
 		for (Student student:allStudents) {
 			for (Mark result:student.getResults()) {
-				
-				Course course = school.getCourse(result.getCourseCode());
-				ArrayList<Assessment> courseworkSubComponents = course.getAssessments().get(1).getSubComponents();
-				if (courseworkSubComponents.size() > 0) {
-					int courseWorkMarks = ComputeGrades.calculateWeightedMarks(
-							courseworkSubComponents, result.getComponentMarkMapping());
-					result.setComponentMarks("Coursework", courseWorkMarks);
+				if (result.getCourseCode().equals(course.getCode())) {
+					selectedResult = result;
 				}
-				ArrayList<Assessment> allAssessments = course.getAssessments();
-				int examMarks = result.getComponentMarkMapping().get("Exam");
-				int courseworkMarks = result.getComponentMarkMapping().get("Coursework");
-				int overallMarks = calculateWeightedMarks(allAssessments, result.getComponentMarkMapping());
-				sumExam += examMarks;
-				sumCoursework += courseworkMarks;
-				sumOverall += overallMarks;
-				
-				sumGPAExam += calculateFinalGradePoint(examMarks);
-				sumGPACoursework += calculateFinalGradePoint(courseworkMarks);
-				sumGPAOverall += calculateFinalGradePoint(overallMarks);
 			}
+			
+			ArrayList<Assessment> courseworkSubComponents = course.getAssessments().get(1).getSubComponents();
+			if (courseworkSubComponents.size() > 0) {
+				int courseWorkMarks = ComputeGrades.calculateWeightedMarks(
+						courseworkSubComponents, selectedResult.getComponentMarkMapping());
+				selectedResult.setComponentMarks("Coursework", courseWorkMarks);
+			}
+			ArrayList<Assessment> allAssessments = course.getAssessments();
+			int examMarks = selectedResult.getComponentMarkMapping().get("Exam");
+			int courseworkMarks = selectedResult.getComponentMarkMapping().get("Coursework");
+			int overallMarks = calculateWeightedMarks(allAssessments, selectedResult.getComponentMarkMapping());
+			sumExam += examMarks;
+			sumCoursework += courseworkMarks;
+			sumOverall += overallMarks;
+			
+			sumGPAExam += calculateFinalGradePoint(examMarks);
+			sumGPACoursework += calculateFinalGradePoint(courseworkMarks);
+			sumGPAOverall += calculateFinalGradePoint(overallMarks);
 		}
 		
 		double avgExam = Math.round((double)sumExam / numOfStudents * 10.0)/10.0;

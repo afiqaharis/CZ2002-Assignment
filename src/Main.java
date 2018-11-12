@@ -72,7 +72,7 @@ public class Main {
 								break;
 							case 7:
 								selectedCourse = school.getCourse();
-								selectedCourse.printStatistics(school);
+								selectedCourse.printStatistics();
 								break;
 							case 0:
 								break;
