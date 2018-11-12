@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class School {
 	private String name;
@@ -7,6 +9,59 @@ public class School {
 	private ArrayList<Professor> professors;
 	private ArrayList<Course> courses;
 	Scanner sc = new Scanner(System.in);
+	
+	private boolean validateName(String sentence) {
+		if (!sentence.matches("[a-zA-Z]+")) {
+			System.out.println();
+			System.out.println("Error: Student name should only contain letters, please try again!");
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean validateNRIC(String nric) {
+		if (nric.length() != 9) {
+			System.out.println();
+			System.out.println("Error: NRIC should contain 9 letters");
+			return false;
+		}
+		
+		if (!Character.isLetter(nric.charAt(0)) || !Character.isLetter(nric.charAt(nric.length() - 1))) {
+			System.out.println();
+			System.out.println("Error: NRIC should begin and and with an alphabet");
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean validateEmail(String email) {
+		String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+		Matcher matcher;
+		matcher = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE).matcher(email);
+		
+		if (!matcher.matches()) {
+			System.out.println();
+			System.out.println("Error: Please enter a valid email address");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private boolean validateCourseCode(String code) {
+		if (code.length() != 6) {
+			System.out.println();
+			System.out.println("Error: Course Code should contain 6 characters");
+			return false;
+		}
+		
+		if (!(Character.isLetter(code.charAt(0)) && (Character.isLetter(code.charAt(1))))) {
+			System.out.println();
+			System.out.println("Error: Course Code should begin with 2 alphabets");
+			return false;
+		}
+		return true;
+	}
 	
 	public School (String name) {
 		this.name = name;
@@ -77,20 +132,46 @@ public class School {
 	}
 	
 	public void addStudent() {
-		System.out.println();
-		System.out.println("Enter the name of the new student:");
-		String name = sc.nextLine();
+		boolean nameValidated = false, nricValidated = false, emailValidated = false;
+		String ic, name, email;
 		
-		System.out.println();
-		System.out.println("Enter the email address of the new student:");
-		String email = sc.nextLine();
+		do {
+			System.out.println();
+			System.out.println("Enter the NRIC of the new student:");
+			ic = sc.nextLine().toUpperCase();
+			if (validateNRIC(ic)) nricValidated = true;
+		} while (!nricValidated);
 		
-		Student newStudent = new Student(name, email);
+		for (Student student:students) {
+			if (student.getIc().equals(ic)) {
+				System.out.println();
+				System.out.println("Error: There already exists a student with the NRIC you entered!");
+				System.out.println();
+				return;
+			}
+		}	
+		
+		do {
+			System.out.println();
+			System.out.println("Enter the name of the new student:");
+			name = sc.nextLine();
+			if (validateName(name)) nameValidated = true;
+		} while (!nameValidated);
+		
+		do {
+			System.out.println();
+			System.out.println("Enter the email address of the new student:");
+			email = sc.nextLine();
+			if (validateEmail(email)) emailValidated = true;
+		} while (!emailValidated);
+		
+		Student newStudent = new Student(name, ic, email);
 		this.students.add(newStudent);
 		FileIO.writeNewStudent(newStudent);
 		System.out.println();
-		System.out.printf("Successfully added new student: %s!\n", newStudent.getName());
-		System.out.println();
+		System.out.printf("Successfully added new student %s with assigned matriculation number: %s!\n", 
+				newStudent.getName(), newStudent.getMatricNumber());
+		this.printStudents();
 	}
 	
 	public void addProfessor() {
@@ -110,14 +191,38 @@ public class School {
 		System.out.println();
 	}
 	
-	public void addCourse() {	
-		System.out.println();
-		System.out.println("Enter the name of the new course:");
-		String name = sc.nextLine();
+	public void addCourse() {
+		boolean courseCodeValidated = false;
+		String courseCode, courseName;
+		
+		do {
+			System.out.println();
+			System.out.println("Enter the course code of the new course:");
+			courseCode = sc.nextLine().toUpperCase();
+			if (validateCourseCode(courseCode)) courseCodeValidated = true;
+		} while (!courseCodeValidated);
+		
+		for (Course course:courses) {
+			if (course.getCode().equals(courseCode)) {
+				System.out.println();
+				System.out.println("Error: There already exists a course with the code you entered!");
+				System.out.println();
+				return;
+			}
+		}
 		
 		System.out.println();
-		System.out.println("Enter the course code of the new course:");
-		String code = sc.nextLine();
+		System.out.println("Enter the name of the new course:");
+		courseName = sc.nextLine();
+		
+		for (Course course:courses) {
+			if (course.getName().equals(name)) {
+				System.out.println();
+				System.out.println("Error: There already exists a course with the name you entered!");
+				System.out.println();
+				return;
+			}
+		}
 		
 		System.out.println();
 		System.out.println("===============================================");
@@ -137,12 +242,12 @@ public class School {
 		sc.nextLine();
 		Professor selectedProfessor = this.professors.get(profIndex - 1);
 		
-		Course newCourse = new Course(code, name, type, selectedProfessor);
+		Course newCourse = new Course(courseCode, courseName, type, selectedProfessor);
 		this.courses.add(newCourse);
 		FileIO.writeNewCourse(newCourse);
 		System.out.println();
 		System.out.printf("Successfully added new course: %s: %s!\n", newCourse.getCode(), newCourse.getName());
-		System.out.println();
+		this.printCourses();
 	}
 	
 	public void registerStudentToCourse() {
@@ -168,14 +273,14 @@ public class School {
 			System.out.println();
 		} else {
 			System.out.println();
-			System.out.println("==============================================================================");
-			System.out.println("| No | Name                | Matriculation Number | Email                    |");
-			System.out.println("==============================================================================");
+			System.out.println("=======================================================================");
+			System.out.println("| No | Name                | Matric Number | Email                    |");
+			System.out.println("=======================================================================");
 			for (Student student: students) {
-	    		System.out.printf("| %-3d| %-20s| %-21s| %-25s|\n", students.indexOf(student) + 1, 
+	    		System.out.printf("| %-3d| %-20s| %-14s| %-25s|\n", students.indexOf(student) + 1, 
 	    				student.getName(), student.getMatricNumber(), student.getEmail());
 	    	}
-			System.out.println("==============================================================================");
+			System.out.println("=======================================================================");
 			System.out.println();
 		}
 	}

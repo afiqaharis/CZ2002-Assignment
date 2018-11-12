@@ -124,33 +124,40 @@ public class Course {
 	
 	public void updateAssessmentWeightage() {
 		ArrayList<Integer> allWeightages = new ArrayList<Integer>();
-		int newWeightage, sumOfWeightages = 0;
+		int newWeightage, sumOfWeightages;
+		boolean weightageValidated = false;
 		this.printWeightages();
 		
-		for (Assessment assessment:assessments) {
-			System.out.printf("Enter the new weightage for the %s assessment:\n", assessment.getType());
-			newWeightage = sc.nextInt();
-			sc.nextLine();
-			allWeightages.add(newWeightage);
-		}
-		
-		for (Integer weightage:allWeightages) {
-			sumOfWeightages += weightage;
-		}
-		
-		if (sumOfWeightages != 100) {
-			System.out.println();
-			System.out.println("Error: Sum of all all weightages has to add to 100");
-			System.out.println();
-		} else {
+		do {
+			allWeightages.clear();
+			sumOfWeightages = 0;
 			for (Assessment assessment:assessments) {
-				int index = assessments.indexOf(assessment);
-				assessment.setWeightage(allWeightages.get(index));
+				System.out.printf("Enter the new weightage for the %s assessment:\n", assessment.getType());
+				newWeightage = sc.nextInt();
+				sc.nextLine();
+				allWeightages.add(newWeightage);
 			}
-			System.out.println();
-			System.out.printf("Assessment Weightages for %s have been updated!\n", this.code);
-			System.out.println();
-		}
+			
+			for (Integer weightage:allWeightages) {
+				sumOfWeightages += weightage;
+			}
+			
+			if (sumOfWeightages != 100) {
+				System.out.println();
+				System.out.println("Error: Sum of all weightages has to add to 100");
+				System.out.println();
+			} else {
+				for (Assessment assessment:assessments) {
+					int index = assessments.indexOf(assessment);
+					assessment.setWeightage(allWeightages.get(index));
+				}
+				System.out.println();
+				System.out.printf("Assessment Weightages for %s have been updated!\n", this.code);
+				System.out.println();
+				weightageValidated = true;
+			}
+		} while(!weightageValidated);
+		
 		return;
 	}
 	

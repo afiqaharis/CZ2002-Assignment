@@ -18,10 +18,11 @@ public class FileIO {
 			BufferedReader brStream = new BufferedReader(frStream);
 			while ((fileLine = brStream.readLine()) != null) {
 				String[] studentData = fileLine.split(";");
-				String studName = studentData[0];
-				String studMatric = studentData[1];
-				String studEmail = studentData[2];
-				Student student = new Student(studName, studMatric, studEmail);
+				String studName = studentData[0].trim();
+				String studIc = studentData[1].trim();
+				String studMatric = studentData[2].trim();
+				String studEmail = studentData[3].trim();
+				Student student = new Student(studName, studIc, studMatric, studEmail);
 				students.add(student);
 			}
 			brStream.close();
@@ -41,10 +42,11 @@ public class FileIO {
 	
 	public static void writeNewStudent(Student newStudent) {
 		String file = "src/data/Students.txt";
-		String studName = newStudent.getName();
-		String studMatric = newStudent.getMatricNumber();
+		String studName = String.format("%-16s", newStudent.getName());
+		String studIc = String.format("%-11s", newStudent.getIc());
+		String studMatric = String.format("%-11s", newStudent.getMatricNumber());
 		String studEmail = newStudent.getEmail();
-		String studentData = studName + ";" + studMatric + ";" + studEmail;
+		String studentData = studName + ";" + studIc + ";" + studMatric + ";" + studEmail;
 		try {
 			FileWriter			fwStream = new FileWriter(file, true);
 			BufferedWriter		bwStream = new BufferedWriter(fwStream);

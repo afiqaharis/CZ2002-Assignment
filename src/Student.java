@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Student {
 	Scanner sc = new Scanner(System.in);
 	private String name;
+	private String ic;
 	private String matricNumber;
 	private String email;
 	// Array of course results, each item having its own component to mark mapping
@@ -24,15 +25,17 @@ public class Student {
 	}
 	
 	// Constructor for new student
-	public Student(String name, String email) {
+	public Student(String name, String ic, String email) {
 		this.name = name;
+		this.ic = ic;
 		this.matricNumber = generateMatricNumber();
 		this.email = email;
 	}
 	
 	// Constructor for existing student
-	public Student(String name, String matricNumber, String email) {
+	public Student(String name, String ic, String matricNumber, String email) {
 		this.name = name;
+		this.ic = ic;
 		this.matricNumber = matricNumber;
 		this.email = email;
 	}
@@ -47,6 +50,10 @@ public class Student {
 	
 	public String getMatricNumber() {
 		return this.matricNumber;
+	}
+	
+	public String getIc() {
+		return this.ic;
 	}
 	
 	public void addResult(Course course) {
