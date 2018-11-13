@@ -2,10 +2,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Student {
-	Scanner sc = new Scanner(System.in);
 	private String name;
 	private String ic;
 	private String matricNumber;
