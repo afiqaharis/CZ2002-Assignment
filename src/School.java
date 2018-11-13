@@ -1,67 +1,10 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class School {
 	private String name;
 	private ArrayList<Student> students;
 	private ArrayList<Professor> professors;
 	private ArrayList<Course> courses;
-	Scanner sc = new Scanner(System.in);
-	
-	private boolean validateName(String sentence) {
-		if (!sentence.matches("[a-zA-Z]+")) {
-			System.out.println();
-			System.out.println("Error: Student name should only contain letters, please try again!");
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean validateNRIC(String nric) {
-		if (nric.length() != 9) {
-			System.out.println();
-			System.out.println("Error: NRIC should contain 9 letters");
-			return false;
-		}
-		
-		if (!Character.isLetter(nric.charAt(0)) || !Character.isLetter(nric.charAt(nric.length() - 1))) {
-			System.out.println();
-			System.out.println("Error: NRIC should begin and and with an alphabet");
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean validateEmail(String email) {
-		String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-		Matcher matcher;
-		matcher = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE).matcher(email);
-		
-		if (!matcher.matches()) {
-			System.out.println();
-			System.out.println("Error: Please enter a valid email address");
-			return false;
-		}
-		
-		return true;
-	}
-	
-	private boolean validateCourseCode(String code) {
-		if (code.length() != 6) {
-			System.out.println();
-			System.out.println("Error: Course Code should contain 6 characters");
-			return false;
-		}
-		
-		if (!(Character.isLetter(code.charAt(0)) && (Character.isLetter(code.charAt(1))))) {
-			System.out.println();
-			System.out.println("Error: Course Code should begin with 2 alphabets");
-			return false;
-		}
-		return true;
-	}
 	
 	public School (String name) {
 		this.name = name;
@@ -89,9 +32,8 @@ public class School {
 	public Course getCourse() {
 		int courseOption;
 		this.printCourses();
-		System.out.printf("Select a course from the list: (1 ~ %d)\n", this.courses.size());
-		courseOption = sc.nextInt();
-		sc.nextLine();
+		String question = String.format("Select a course from the list (1 ~ %d): ", this.courses.size());
+		courseOption = Utility.readIntOption(question);
 		
 		if (courseOption < 1 || courseOption > this.courses.size()) {
 			System.out.println();
@@ -116,9 +58,8 @@ public class School {
 	public Student getStudent() {
 		int studentOption;
 		this.printStudents();
-		System.out.printf("Select a student from the list: (1 ~ %d)\n", this.students.size());
-		studentOption = sc.nextInt();
-		sc.nextLine();
+		String question = String.format("Select a student from the list: (1 ~ %d)\n", this.students.size());
+		studentOption = Utility.readIntOption(question);
 		
 		if (studentOption < 1 || studentOption > this.students.size()) {
 			System.out.println();
@@ -137,9 +78,8 @@ public class School {
 		
 		do {
 			System.out.println();
-			System.out.println("Enter the NRIC of the new student:");
-			ic = sc.nextLine().toUpperCase();
-			if (validateNRIC(ic)) nricValidated = true;
+			ic = Utility.readStringInput("Enter the NRIC of the new student: ").toUpperCase();
+			if (Validator.validateNRIC(ic)) nricValidated = true;
 		} while (!nricValidated);
 		
 		for (Student student:students) {
@@ -153,16 +93,14 @@ public class School {
 		
 		do {
 			System.out.println();
-			System.out.println("Enter the name of the new student:");
-			name = sc.nextLine();
-			if (validateName(name)) nameValidated = true;
+			name = Utility.readStringInput("Enter the name of the new student: ");
+			if (Validator.validateName(name)) nameValidated = true;
 		} while (!nameValidated);
 		
 		do {
 			System.out.println();
-			System.out.println("Enter the email address of the new student:");
-			email = sc.nextLine();
-			if (validateEmail(email)) emailValidated = true;
+			email = Utility.readStringInput("Enter the email address of the new student: ");
+			if (Validator.validateEmail(email)) emailValidated = true;
 		} while (!emailValidated);
 		
 		Student newStudent = new Student(name, ic, email);
@@ -176,12 +114,10 @@ public class School {
 	
 	public void addProfessor() {
 		System.out.println();
-		System.out.println("Enter the name of the new professor:");
-		String name = sc.nextLine();
+		String name = Utility.readStringInput("Enter the name of the new professor: ");
 		
 		System.out.println();
-		System.out.println("Enter the email address of the new professor:");
-		String email = sc.nextLine();
+		String email = Utility.readStringInput("Enter the email address of the new professor: ");
 		
 		Professor newProf = new Professor(name, email);
 		this.professors.add(newProf);
@@ -197,9 +133,8 @@ public class School {
 		
 		do {
 			System.out.println();
-			System.out.println("Enter the course code of the new course:");
-			courseCode = sc.nextLine().toUpperCase();
-			if (validateCourseCode(courseCode)) courseCodeValidated = true;
+			courseCode = Utility.readStringInput("Enter the course code of the new course: ").toUpperCase();
+			if (Validator.validateCourseCode(courseCode)) courseCodeValidated = true;
 		} while (!courseCodeValidated);
 		
 		for (Course course:courses) {
@@ -212,8 +147,7 @@ public class School {
 		}
 		
 		System.out.println();
-		System.out.println("Enter the name of the new course:");
-		courseName = sc.nextLine();
+		courseName = Utility.readStringInput("Enter the name of the new course: ");
 		
 		for (Course course:courses) {
 			if (course.getName().equals(name)) {
@@ -225,21 +159,13 @@ public class School {
 		}
 		
 		System.out.println();
-		System.out.println("===============================================");
-		System.out.println("| Select the type for the new course: (1 ~ 3) |");
-		System.out.println("===============================================");
-		System.out.println("| 1 | Lecture Only                            |");
-		System.out.println("| 2 | Lecture and Tutorial Only               |");
-		System.out.println("| 3 | Lecture , Tutorial and Lab              |");
-		System.out.println("===============================================");
-		int type = sc.nextInt();
-		sc.nextLine();
+		String[] courseTypeMenu = { "Lecture Only", "Lecture and Tutorial Only", "Lecture, Tutorial and Lab" };
+		int type = Utility.getUserOption("Select the type for the new course: (1 ~ 3)", courseTypeMenu, false);
 		
 		System.out.println();
 		this.printProfessors();
-		System.out.printf("Select a course coordinator from the list of professors: (1 ~ %d)\n", this.professors.size());
-		int profIndex = sc.nextInt();
-		sc.nextLine();
+		String question = String.format("Select a course coordinator from the list of professors: (1 ~ %d)\n", this.professors.size());
+		int profIndex = Utility.readIntOption(question);
 		Professor selectedProfessor = this.professors.get(profIndex - 1);
 		
 		Course newCourse = new Course(courseCode, courseName, type, selectedProfessor);
@@ -252,15 +178,13 @@ public class School {
 	
 	public void registerStudentToCourse() {
 		this.printStudentNames();
-		System.out.printf("Select which student you\'d like to register: (1 ~ %d)\n", this.students.size());
-		int studentOption = sc.nextInt();
-		sc.nextLine();	
+		String question1 = String.format("Select which student you\'d like to register: (1 ~ %d)\n", this.students.size());
+		int studentOption = Utility.readIntOption(question1);
 		Student selectedStudent = students.get(studentOption - 1);
 		
 		this.printCourses();
-		System.out.printf("Select which course you\'d like to register %s to: (1 ~ %d)\n", selectedStudent.getName(), this.courses.size());
-		int courseOption = sc.nextInt();
-		sc.nextLine();
+		String question2 = String.format("Select which course you\'d like to register %s to: (1 ~ %d)\n", selectedStudent.getName(), this.courses.size());
+		int courseOption = Utility.readIntOption(question2);
 		Course selectedCourse = courses.get(courseOption - 1);
 		
 		selectedCourse.registerStudent(selectedStudent);
