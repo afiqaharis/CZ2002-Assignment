@@ -5,9 +5,7 @@ public class MarkEntry {
 		int option1, option2;
 		ArrayList<Mark> studentResults = student.getResults();
 		if (studentResults.isEmpty()) {
-			System.out.println();
-			System.out.println("Error: Student has not been registered to any course.");
-			System.out.println();
+			Utility.printErrorMessage("Student has not been registered to any course.");
 		} else {
 			System.out.println();
 			System.out.println("===========================================================");
@@ -41,20 +39,17 @@ public class MarkEntry {
 					String selectedComponent = components.get(option2 - 1);
 					
 					if (selectedComponent.equals("Coursework") && selectedResult.getComponentMarkMapping().size() > 2) {
-						System.out.println("Error: Unable to directly allocate marks to Coursework since it has sub components");
+						Utility.printErrorMessage("Unable to directly allocate marks to Coursework since it has sub components");
 					} else {
 						String question = String.format("Enter the marks for the %s component: (Out of 100)\n", selectedComponent);
 						int marks = Utility.readIntOption(question);
 						
 						if (marks > 100) {
-							System.out.println();
-							System.out.println("Error: Marks entered should not exceed 100.");
-							System.out.println();
+							Utility.printErrorMessage("Marks entered should not exceed 100.");
 						} else {
 							selectedResult.setComponentMarks(selectedComponent, marks);
-							System.out.println();
-							System.out.printf("Successfully updated marks for the %s component!\n", selectedComponent);
-							System.out.println();
+							String successMsg = String.format("Successfully updated marks for the %s component!\n", selectedComponent);							
+							Utility.printSuccessMessage(successMsg);
 						}
 					}
 				}

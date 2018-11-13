@@ -65,14 +65,15 @@ public class FileIO {
 		Professor selectedProfessor = null;
 		
 		try {
-			FileReader frStream = new FileReader(file);
-			BufferedReader brStream = new BufferedReader(frStream);
+			FileReader 		frStream = new FileReader(file);
+			BufferedReader 	brStream = new BufferedReader(frStream);
 			while ((fileLine = brStream.readLine()) != null) {
 				String[] courseData = fileLine.split(";");
-				String courseCode = courseData[0];
-				String courseName = courseData[1];
-				int courseType = Integer.parseInt(courseData[2]);
-				String courseCoordinator = courseData[3];
+				String courseCode = courseData[0].trim();
+				String courseName = courseData[1].trim();
+				int courseType = Integer.parseInt(courseData[2].trim());
+				String courseCoordinator = courseData[3].trim();
+				int numTutLabGroups = Integer.parseInt(courseData[4].trim());
 				
 				for (Professor professor:professors) {
 					if (courseCoordinator.equals(professor.getName())) {
@@ -80,7 +81,7 @@ public class FileIO {
 					}
 				}
 				
-				Course student = new Course(courseCode, courseName, courseType, selectedProfessor);
+				Course student = new Course(courseCode, courseName, courseType, selectedProfessor, numTutLabGroups);
 				courses.add(student);
 			}
 			brStream.close();
@@ -100,11 +101,13 @@ public class FileIO {
 	
 	public static void writeNewCourse(Course newCourse) {
 		String file = "src/data/Courses.txt";
-		String courseCode = newCourse.getCode();
-		String courseName = newCourse.getName();
-		int courseType = newCourse.getType();
-		String profName = newCourse.getCourseCoordinator().getName();
-		String courseData = courseCode + ";" + courseName + ";" + courseType + ";" + profName;
+		String courseCode 	= String.format("%-8s", newCourse.getCode());
+		String courseName 	= String.format("%-43s", newCourse.getName());
+		String courseType 	= String.format("%-3d", newCourse.getType());
+		String profName 	= String.format("%-19s", newCourse.getCourseCoordinator().getName());
+		String numGroups 	= String.format("%s", newCourse.getNumGroups());
+
+		String courseData = courseCode + ";" + courseName + ";" + courseType + ";" + profName + ";" + numGroups;
 		try {
 			FileWriter			fwStream = new FileWriter(file, true);
 			BufferedWriter		bwStream = new BufferedWriter(fwStream);

@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.HashMap;
 
 public class Course {
+	private static final int GROUP_SIZE = 10;
+	private static final int LECTURE_SIZE = 50;
 	private String code;
 	private String name;
 	private int type;
+	private int numGroups;
 	private Professor courseCoordinator;
 
 	private ArrayList<Group> lectureGroups;
@@ -16,28 +18,33 @@ public class Course {
 	private ArrayList<Group> allGroups = new ArrayList<Group>();
 	
 	private ArrayList<Assessment> assessments = new ArrayList<Assessment>();
-
-	Scanner sc = new Scanner(System.in);
 	
-	public Course(String code, String name, int type, Professor courseCoordinator) {
+	public Course(String code, String name, int type, Professor courseCoordinator, int numGroups) {
 		this.code = code;
 		this.name = name;
 		this.type = type;
+		this.numGroups = numGroups;
 		this.courseCoordinator = courseCoordinator;
 		
 		if (this.type >= 1) {
 			lectureGroups = new ArrayList<Group>();
-			lectureGroups.add(new Group("Lecture", 50));
+			if (numGroups == 0) {
+				lectureGroups.add(new Group(GroupType.LEC.toString(), LECTURE_SIZE));
+			} else {
+				lectureGroups.add(new Group(GroupType.LEC.toString(), numGroups * GROUP_SIZE));
+			}
 		}
 		if (this.type >= 2) {
 			tutorialGroups = new ArrayList<Group>();
-			tutorialGroups.add(new Group("Tutorial", 10));
-			tutorialGroups.add(new Group("Tutorial", 10));
+			for (int i = 0; i < numGroups; i++) {
+				tutorialGroups.add(new Group(GroupType.TUT.toString(), GROUP_SIZE));
+			}
 		}
 		if (this.type >= 3) {
 			labGroups = new ArrayList<Group>();
-			labGroups.add(new Group("Lab", 10));
-			labGroups.add(new Group("Lab", 10));
+			for (int i = 0; i < numGroups; i++) {
+				labGroups.add(new Group(GroupType.LAB.toString(), GROUP_SIZE));
+			}
 		}
 		
 		 assessments.add(new Assessment("Exam", 60));
@@ -55,6 +62,10 @@ public class Course {
 	
 	public int getType() {
 		return this.type;
+	}
+	
+	public int getNumGroups() {
+		return this.numGroups;
 	}
 	
 	public Professor getCourseCoordinator() {
@@ -76,6 +87,7 @@ public class Course {
 	public ArrayList<Assessment> getAssessments() {
 		return this.assessments;
 	}
+	
 	
 	public void registerStudent(Student student) {
 		int found = 0;
@@ -101,11 +113,21 @@ public class Course {
 		}
 		System.out.println("====================================================");
 		System.out.println();
-		System.out.printf("Select which group to register %s to: (1 ~ %d)\n", student.getName(), allGroups.size());
-		int option = sc.nextInt();
-		sc.nextLine();
+		String question = String.format("Select which group to register %s to: (1 ~ %d)\n", student.getName(), allGroups.size());
+		int option = Utility.readIntOption(question);
 		
 		Group selectedGroup = allGroups.get(option - 1);
+		
+		for (Group group:allGroups) {
+			if (group.checkStudentExists(student)) {
+				if ((group.getType().equals(selectedGroup.getType())) && 
+					(group.getGroupId() != selectedGroup.getGroupId())) {
+						String errorMsg = String.format("Student can only be registered to one %s group", selectedGroup.getType());
+						Utility.printErrorMessage(errorMsg);
+				}
+			}
+		}
+		
 		if (selectedGroup.checkVacancy() && selectedGroup.checkStudentExists(student)) {
 			selectedGroup.registerStudent(student);
 		}
@@ -132,9 +154,8 @@ public class Course {
 			allWeightages.clear();
 			sumOfWeightages = 0;
 			for (Assessment assessment:assessments) {
-				System.out.printf("Enter the new weightage for the %s assessment:\n", assessment.getType());
-				newWeightage = sc.nextInt();
-				sc.nextLine();
+				String question = String.format("Enter the new weightage for the %s assessment:\n", assessment.getType());
+				newWeightage = Utility.readIntOption(question);
 				allWeightages.add(newWeightage);
 			}
 			
@@ -143,17 +164,14 @@ public class Course {
 			}
 			
 			if (sumOfWeightages != 100) {
-				System.out.println();
-				System.out.println("Error: Sum of all weightages has to add to 100");
-				System.out.println();
+				Utility.printErrorMessage("Sum of all weightages has to add to 100");
 			} else {
 				for (Assessment assessment:assessments) {
 					int index = assessments.indexOf(assessment);
 					assessment.setWeightage(allWeightages.get(index));
 				}
-				System.out.println();
-				System.out.printf("Assessment Weightages for %s have been updated!\n", this.code);
-				System.out.println();
+				String successMsg = String.format("Assessment Weightages for %s have been updated!\n", this.code);
+				Utility.printSuccessMessage(successMsg);
 				weightageValidated = true;
 			}
 		} while(!weightageValidated);
@@ -169,17 +187,15 @@ public class Course {
 		String newName;
 		
 		System.out.println();
-		System.out.println("How many sub components would you like to add?");
-		numOfSubComponents = sc.nextInt();
-		sc.nextLine();
+		String question1 = String.format("How many sub components would you like to add?");
+		numOfSubComponents = Utility.readIntOption(question1);
 		
 		for (int i = 0; i < numOfSubComponents; i++) {
-			System.out.printf("Enter name of Sub Component %d:\n", i + 1);
-			newName = sc.nextLine();
+			String question = String.format("Enter name of Sub Component %d:\n", i + 1);
+			newName = Utility.readStringInput(question);
 			allNames.add(newName);
-			System.out.printf("Enter weightage of Sub Component %d:\n", i + 1);
-			newWeightage = sc.nextInt();
-			sc.nextLine();
+			String question2 = String.format("Enter weightage of Sub Component %d:\n", i + 1);
+			newWeightage = Utility.readIntOption(question2);
 			allWeightages.add(newWeightage);
 		}
 		
@@ -188,9 +204,7 @@ public class Course {
 		}
 		
 		if (sumOfWeightages != 100) {
-			System.out.println();
-			System.out.println("Error: Sum of all all weightages has to add to 100");
-			System.out.println();
+			Utility.printErrorMessage("Sum of all all weightages has to add to 100");
 		} else {
 			for (String name:allNames) {
 				int index = allNames.indexOf(name);
@@ -198,9 +212,8 @@ public class Course {
 				courseWork.addSubComponent(newComponent);
 				
 			}
-			System.out.println();
-			System.out.printf("New Components have been added to the Coursework of %s !\n", this.code);
-			System.out.println();
+			String successMsg = String.format("New Components have been added to the Coursework of %s !\n", this.code);
+			Utility.printSuccessMessage(successMsg);
 		}
 		return;
 	}
@@ -225,9 +238,8 @@ public class Course {
 		
 		System.out.println("=============================================");
 		System.out.println();
-		System.out.printf("Select which group to view the student list from: (1 ~ %d)\n", allGroups.size());
-		int option = sc.nextInt();
-		sc.nextLine();
+		String question = String.format("Select which group to view the student list from: (1 ~ %d)\n", allGroups.size());
+		int option = Utility.readIntOption(question);
 		
 		allGroups.get(option - 1).printStudents();
 	}
@@ -253,7 +265,6 @@ public class Course {
 					group.getGroupId(), slotsLeft);
 		}
 		System.out.println("====================================================");
-		System.out.println();
 	}
 	
 	public void printWeightages() {		
@@ -273,7 +284,6 @@ public class Course {
 			}
 		}
 		System.out.println("=====================================================");
-		System.out.println();
 	}
 	
 	public void printStatistics() {
@@ -304,6 +314,5 @@ public class Course {
 		System.out.printf("| Average Coursework Marks   : %-21.1f|\n", courseOverall.get("avgCoursework"));
 		System.out.printf("| Average Coursework GPA     : %-21.1f|\n", courseOverall.get("avgGPACoursework"));
 		System.out.println("=====================================================");
-		System.out.println();
 	}
 }

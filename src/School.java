@@ -36,9 +36,7 @@ public class School {
 		courseOption = Utility.readIntOption(question);
 		
 		if (courseOption < 1 || courseOption > this.courses.size()) {
-			System.out.println();
-			System.out.println("Error:  Please choose from the options in the list");
-			System.out.println();
+			Utility.printErrorMessage("Please choose from the options in the list");
 		} else {
 			return courses.get(courseOption - 1);
 		}
@@ -62,9 +60,7 @@ public class School {
 		studentOption = Utility.readIntOption(question);
 		
 		if (studentOption < 1 || studentOption > this.students.size()) {
-			System.out.println();
-			System.out.println("Error:  Please choose from the options in the list");
-			System.out.println();
+			Utility.printErrorMessage("Please choose from the options in the list");
 		} else {
 			return students.get(studentOption - 1);
 		}
@@ -84,9 +80,7 @@ public class School {
 		
 		for (Student student:students) {
 			if (student.getIc().equals(ic)) {
-				System.out.println();
-				System.out.println("Error: There already exists a student with the NRIC you entered!");
-				System.out.println();
+				Utility.printErrorMessage("There already exists a student with the NRIC you entered!");
 				return;
 			}
 		}	
@@ -106,9 +100,9 @@ public class School {
 		Student newStudent = new Student(name, ic, email);
 		this.students.add(newStudent);
 		FileIO.writeNewStudent(newStudent);
-		System.out.println();
-		System.out.printf("Successfully added new student %s with assigned matriculation number: %s!\n", 
+		String successMsg = String.format("Added new student %s with assigned matriculation number: %s!\n", 
 				newStudent.getName(), newStudent.getMatricNumber());
+		Utility.printSuccessMessage(successMsg);
 		this.printStudents();
 	}
 	
@@ -122,9 +116,8 @@ public class School {
 		Professor newProf = new Professor(name, email);
 		this.professors.add(newProf);
 		FileIO.writeNewProfessor(newProf);
-		System.out.println();
-		System.out.printf("Successfully added new professor: %s!\n", newProf.getName());
-		System.out.println();
+		String successMsg = String.format("Added new professor: %s!\n", newProf.getName());
+		Utility.printSuccessMessage(successMsg);
 	}
 	
 	public void addCourse() {
@@ -139,9 +132,7 @@ public class School {
 		
 		for (Course course:courses) {
 			if (course.getCode().equals(courseCode)) {
-				System.out.println();
-				System.out.println("Error: There already exists a course with the code you entered!");
-				System.out.println();
+				Utility.printErrorMessage("There already exists a course with the code you entered!");
 				return;
 			}
 		}
@@ -151,9 +142,7 @@ public class School {
 		
 		for (Course course:courses) {
 			if (course.getName().equals(name)) {
-				System.out.println();
-				System.out.println("Error: There already exists a course with the name you entered!");
-				System.out.println();
+				Utility.printErrorMessage("There already exists a course with the name you entered!");
 				return;
 			}
 		}
@@ -162,17 +151,22 @@ public class School {
 		String[] courseTypeMenu = { "Lecture Only", "Lecture and Tutorial Only", "Lecture, Tutorial and Lab" };
 		int type = Utility.getUserOption("Select the type for the new course: (1 ~ 3)", courseTypeMenu, false);
 		
+		int numTutLabGroups = 0;
+		if (type > 1) {
+			numTutLabGroups = Utility.readIntOption("Enter the number of tutorial and lab groups you\'d like for this course");
+		}
+		
 		System.out.println();
 		this.printProfessors();
 		String question = String.format("Select a course coordinator from the list of professors: (1 ~ %d)\n", this.professors.size());
 		int profIndex = Utility.readIntOption(question);
 		Professor selectedProfessor = this.professors.get(profIndex - 1);
 		
-		Course newCourse = new Course(courseCode, courseName, type, selectedProfessor);
+		Course newCourse = new Course(courseCode, courseName, type, selectedProfessor, numTutLabGroups);
 		this.courses.add(newCourse);
 		FileIO.writeNewCourse(newCourse);
-		System.out.println();
-		System.out.printf("Successfully added new course: %s: %s!\n", newCourse.getCode(), newCourse.getName());
+		String successMsg = String.format("Added new course: %s: %s!\n", newCourse.getCode(), newCourse.getName());
+		Utility.printSuccessMessage(successMsg);
 		this.printCourses();
 	}
 	
@@ -191,10 +185,9 @@ public class School {
 	}
 	
 	public void printStudents() {
-		if (students.isEmpty()) {
-			System.out.println();
-			System.out.printf("There are currently no students enrolled into %s\n", this.name);
-			System.out.println();
+		if (students.isEmpty()) {			
+			String noticeMsg = String.format("There are currently no students enrolled into %s\n", this.name);
+			Utility.printNoticeMessage(noticeMsg);
 		} else {
 			System.out.println();
 			System.out.println("=======================================================================");
@@ -205,15 +198,13 @@ public class School {
 	    				student.getName(), student.getMatricNumber(), student.getEmail());
 	    	}
 			System.out.println("=======================================================================");
-			System.out.println();
 		}
 	}
 	
 	public void printProfessors() {
-		if (professors.isEmpty()) {
-			System.out.println();
-			System.out.printf("There are currently no professors employed with %s\n", this.name);
-			System.out.println();
+		if (professors.isEmpty()) {	
+			String noticeMsg = String.format("There are currently no professors employed with %s\n", this.name);
+			Utility.printNoticeMessage(noticeMsg);
 		} else {
 			System.out.println();
 			System.out.println("======================================================================");
@@ -224,15 +215,13 @@ public class School {
 	    				professor.getName(), professor.getId(), professor.getEmail());
 	    	}
 			System.out.println("======================================================================");
-			System.out.println();
 		}
 	}
 	
 	public void printCourses() {
-		if (courses.isEmpty()) {
-			System.out.println();
-			System.out.printf("There are no courses under %s\n", this.name);
-			System.out.println();
+		if (courses.isEmpty()) {			
+			String noticeMsg = String.format("There are no courses under %s\n", this.name);
+			Utility.printNoticeMessage(noticeMsg);
 		} else {
 			System.out.println();
 			System.out.println("====================================================================");
@@ -243,15 +232,13 @@ public class School {
 	    			course.getCode(), course.getName());
 	    	}
 			System.out.println("====================================================================");
-			System.out.println();
 		}
 	}
 	
 	public void printStudentNames() {
 		if (students.isEmpty()) {
-			System.out.println();
-			System.out.printf("There are currently no students enrolled into %s\n", this.name);
-			System.out.println();
+			String noticeMsg = String.format("There are currently no students enrolled into %s\n", this.name);
+			Utility.printNoticeMessage(noticeMsg);
 		} else {
 			System.out.println();
 			System.out.println("============================");
@@ -261,7 +248,6 @@ public class School {
 	    		System.out.printf("| %-3d| %-20s|\n", students.indexOf(student) + 1, student.getName());
 	    	}
 			System.out.println("============================");
-			System.out.println();
 		}
 	}
 }

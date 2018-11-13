@@ -39,9 +39,7 @@ public class SCRAME {
 				selectedStudent.printTranscript(school);
 				break;
 			default:
-				System.out.println();
-				System.out.println("Error: Please choose from the options in the list.");
-				System.out.println();
+				Utility.printErrorMessage("Error: Please choose from the options in the list.");
 				break;
 		}
 		
@@ -58,34 +56,34 @@ public class SCRAME {
 		do {
 			option2 = Utility.getUserOption("Select which records to view", viewRecordMenu, true);
 			switch(option2) {
-			case 1:
-				school.printStudents();
-				break;
-			case 2:
-				school.printCourses();
-				break;
-			case 3:
-				school.printProfessors();
-				break;
-			case 4:
-				selectedCourse = school.getCourse();
-				selectedCourse.printStudents();
-				break;
-			case 5:
-				selectedCourse = school.getCourse();
-				selectedCourse.printAvailability();
-				break;
-			case 6:
-				selectedCourse = school.getCourse();
-				selectedCourse.printWeightages();
-				break;
-			case 7:
-				selectedCourse = school.getCourse();
-				selectedCourse.printStatistics();
-				break;
-			case 0:
-				break;
-		}
+				case 1:
+					school.printStudents();
+					break;
+				case 2:
+					school.printCourses();
+					break;
+				case 3:
+					school.printProfessors();
+					break;
+				case 4:
+					selectedCourse = school.getCourse();
+					selectedCourse.printStudents();
+					break;
+				case 5:
+					selectedCourse = school.getCourse();
+					selectedCourse.printAvailability();
+					break;
+				case 6:
+					selectedCourse = school.getCourse();
+					selectedCourse.printWeightages();
+					break;
+				case 7:
+					selectedCourse = school.getCourse();
+					selectedCourse.printStatistics();
+					break;
+				case 0:
+					break;
+			}
 		} while (option2 != 0);
 	}
 	

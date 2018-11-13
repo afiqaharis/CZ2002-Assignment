@@ -1,7 +1,4 @@
-import java.util.Scanner;
-
 public class Utility {
-	private static Scanner sc = new Scanner(System.in);
 	
 	@SuppressWarnings("resource")
 	public static String readStringInput(String prompt) {
@@ -17,12 +14,28 @@ public class Utility {
 				input = Integer.parseInt(readStringInput(prompt));
 				valid = true;
 			} catch (NumberFormatException e) {
-				System.out.println();
-				System.out.println("Error: Please enter an integer");
-				System.out.println();
+				Utility.printErrorMessage("Please enter an integer");
 			}
 		}
 		return input;
+	}
+	
+	public static void printErrorMessage(String msg) {
+		System.out.println();
+		System.out.println("Error: " + msg);
+		System.out.println();
+	}
+	
+	public static void printSuccessMessage(String msg) {
+		System.out.println();
+		System.out.println("Success: " + msg);
+		System.out.println();
+	}
+	
+	public static void printNoticeMessage(String msg) {
+		System.out.println();
+		System.out.println("Notice: " + msg);
+		System.out.println();
 	}
 	
 	private static void printLine(int frequency, char character) {
@@ -52,13 +65,9 @@ public class Utility {
 		printMenu(title, menu, addBackOption);
 		
 		do {
-			System.out.printf("Select an option from the above list: ");
-			choice = sc.nextInt();
-			sc.nextLine();
+			choice = readIntOption("Select an option from the above list: ");
 			if (choice > menu.length || choice < lastOption) {
-				System.out.println();
-				System.out.println("Error: Please choose an option from the list");
-				System.out.println();
+				printErrorMessage("Please choose an option from the list");
 			}
 		} while (choice > menu.length || choice < lastOption);
 		

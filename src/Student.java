@@ -74,9 +74,7 @@ public class Student {
 	
 	public void printTranscript(School school) {
 		if (results.isEmpty()) {
-			System.out.println();
-			System.out.println("Error: Student has not been registered to any course.");
-			System.out.println();
+			Utility.printErrorMessage("Student has not been registered to any course.");
 		} else {
 			System.out.println();
 			System.out.println("===========================================================");

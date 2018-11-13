@@ -1,5 +1,5 @@
-CZ2001;Algorithms;1;Tan Ah Kow
-CZ2002;Object Oriented Design and Programming;2;Nelson Tan
-CZ2004;Human Computer Interaction;2;Arjun Deepa
-CZ2005;Operating Systems;3;John Lim
-CZ2007;Introduction To Database Systems;3;Tan Ah Kow
+CZ2001	;Algorithms									;1	;Tan Ah Kow			;0
+CZ2002	;Object Oriented Design and Programming		;2	;Nelson Tan			;2
+CZ2004	;Human Computer Interaction					;2	;Arjun Deepa		;3
+CZ2005	;Operating Systems							;3	;John Lim			;2
+CZ2007	;Introduction To Database Systems			;3	;Tan Ah Kow			;3

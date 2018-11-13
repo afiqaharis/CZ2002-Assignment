@@ -7,21 +7,6 @@ public class Group {
 	private int groupId;
 	private String type;	
 	
-	// START: Might need to shift this else where
-	public enum GroupType {
-		LEC("Lecture"), TUT("Tutorial"), LAB("Lab");
-		private String value;
-		
-		GroupType(final String value) {
-			this.value = value;
-		}
-		
-		public String getValue() {
-	        return value;
-	    }
-	}
-	// END
-	
 	public Group(String type, int size) {
 		Random rand = new Random();
 		this.groupId = 10000 + rand.nextInt(80000);
@@ -49,17 +34,13 @@ public class Group {
 		if (this.size - students.size() > 0) {
 			return true;
 		}
-		System.out.println();
-		System.out.println("Error: Group does not have any slots left!");
-		System.out.println();
+		Utility.printErrorMessage("Group does not have any slots left!");
 		return false;
 	}
 	
 	public boolean checkStudentExists(Student student) {
 		if (students.indexOf(student) >= 0) {
-			System.out.println();
-			System.out.println("Error: Student already exists within the group!");
-			System.out.println();
+			Utility.printErrorMessage("Student already exists within the group.");
 			return false;
 		}
 		return true;
@@ -67,16 +48,14 @@ public class Group {
 	
 	public void registerStudent(Student student) {
 		students.add(student);
-		System.out.println();
-		System.out.printf("Successfully added %s to %s Group %d\n", student.getName(), this.type, this.groupId);
-		System.out.println();
+		String successMsg = String.format("Added %s to %s Group %d\n", student.getName(), this.type, this.groupId);
+		Utility.printSuccessMessage(successMsg);
 	}
 	
 	public void printStudents() {
-		if (students.isEmpty()) {
-			System.out.println();
-			System.out.printf("There are currently no students in %s Group %d\n", this.type, this.groupId);
-			System.out.println();
+		if (students.isEmpty()) {			
+			String noticeMsg = String.format("There are currently no students in %s Group %d\n", this.type, this.groupId);	
+			Utility.printNoticeMessage(noticeMsg);
 		} else {
 			System.out.println();
 			System.out.println("===================================================");
@@ -89,7 +68,6 @@ public class Group {
 	    				student.getName(), student.getMatricNumber(), student.getEmail());
 	    	}
 			System.out.println("===================================================");
-			System.out.println();
 		}
 	}
 }
