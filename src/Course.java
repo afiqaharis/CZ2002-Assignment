@@ -118,18 +118,26 @@ public class Course {
 		
 		Group selectedGroup = allGroups.get(option - 1);
 		
+		// Check if student already registered to another group of the same type
 		for (Group group:allGroups) {
 			if (group.checkStudentExists(student)) {
 				if ((group.getType().equals(selectedGroup.getType())) && 
 					(group.getGroupId() != selectedGroup.getGroupId())) {
 						String errorMsg = String.format("Student can only be registered to one %s group", selectedGroup.getType());
 						Utility.printErrorMessage(errorMsg);
+						return;
 				}
 			}
 		}
 		
-		if (selectedGroup.checkVacancy() && selectedGroup.checkStudentExists(student)) {
-			selectedGroup.registerStudent(student);
+		if (selectedGroup.checkVacancy()) {
+			if (!selectedGroup.checkStudentExists(student)) {
+				selectedGroup.registerStudent(student);
+			} else {
+				Utility.printErrorMessage("Student already exists within the group.");
+			}
+		} else {
+			Utility.printErrorMessage("Group does not have any slots left!");
 		}
 		
 		for (Mark result:student.getResults()) {

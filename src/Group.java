@@ -34,16 +34,14 @@ public class Group {
 		if (this.size - students.size() > 0) {
 			return true;
 		}
-		Utility.printErrorMessage("Group does not have any slots left!");
 		return false;
 	}
 	
 	public boolean checkStudentExists(Student student) {
 		if (students.indexOf(student) >= 0) {
-			Utility.printErrorMessage("Student already exists within the group.");
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public void registerStudent(Student student) {
