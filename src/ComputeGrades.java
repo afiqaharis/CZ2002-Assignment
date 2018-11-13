@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.lang.Math;
 
 public class ComputeGrades {
+	//ComputeGrades is a static class
 	public static Integer calculateWeightedMarks(ArrayList<Assessment> assessments, HashMap<String, Integer> componentMarkMap) {
 		int totalMarks = 0;
 		for (Assessment assessment:assessments) {
@@ -15,21 +16,21 @@ public class ComputeGrades {
 		}
 		return totalMarks;
 	}
-	
+
 	public static HashMap<String, Double> calculateCourseAverage(Course course, Set<Student> allStudents) {
 		HashMap<String, Double> allOverall = new HashMap<String, Double>();
 		Mark selectedResult = null;
 		int numOfStudents = allStudents.size();
 		int sumExam = 0, sumCoursework = 0, sumOverall = 0;
 		double sumGPAExam = 0, sumGPACoursework = 0, sumGPAOverall = 0;
-		
+
 		for (Student student:allStudents) {
 			for (Mark result:student.getResults()) {
 				if (result.getCourseCode().equals(course.getCode())) {
 					selectedResult = result;
 				}
 			}
-			
+
 			ArrayList<Assessment> courseworkSubComponents = course.getAssessments().get(1).getSubComponents();
 			if (courseworkSubComponents.size() > 0) {
 				int courseWorkMarks = ComputeGrades.calculateWeightedMarks(
@@ -43,31 +44,31 @@ public class ComputeGrades {
 			sumExam += examMarks;
 			sumCoursework += courseworkMarks;
 			sumOverall += overallMarks;
-			
+
 			sumGPAExam += calculateFinalGradePoint(examMarks);
 			sumGPACoursework += calculateFinalGradePoint(courseworkMarks);
 			sumGPAOverall += calculateFinalGradePoint(overallMarks);
 		}
-		
+
 		double avgExam = Math.round((double)sumExam / numOfStudents * 10.0)/10.0;
 		double avgCoursework = Math.round((double)sumCoursework / numOfStudents * 10.0)/10.0;
 		double avgOverall = Math.round((double)sumOverall / numOfStudents * 10.0)/10.0;
-		
+
 		double avgGPAExam = Math.round((double)sumGPAExam / numOfStudents * 10.0)/10.0;
 		double avgGPACoursework = Math.round((double)sumGPACoursework / numOfStudents * 10.0)/10.0;
 		double avgGPAOverall = Math.round((double)sumGPAOverall / numOfStudents * 10.0)/10.0;
-		
+
 		allOverall.put("avgExam", avgExam);
 		allOverall.put("avgCoursework", avgCoursework);
 		allOverall.put("avgOverall", avgOverall);
-		
+
 		allOverall.put("avgGPAExam", avgGPAExam);
 		allOverall.put("avgGPACoursework", avgGPACoursework);
 		allOverall.put("avgGPAOverall", avgGPAOverall);
-		
+
 		return allOverall;
 	}
-	
+
 	public static String calculateFinalGrade(int overallMarks) {
 		if (overallMarks >= 100) {
 			return "A+";
@@ -93,7 +94,7 @@ public class ComputeGrades {
 			return "F";
 		}
 	}
-	
+
 	public static double calculateFinalGradePoint(int overallMarks) {
 		if (overallMarks >= 100) {
 			return 5.0;

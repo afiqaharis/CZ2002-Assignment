@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MarkEntry {
-	public static void enterStudentMarks(Scanner sc, Student student) {	
+	//Static Class
+	public static void enterStudentMarks(Scanner sc, Student student) {
 		int option1, option2;
 		ArrayList<Mark> studentResults = student.getResults();
 		if (studentResults.isEmpty()) {
@@ -22,15 +23,15 @@ public class MarkEntry {
 			option1 = sc.nextInt();
 			sc.nextLine();
 			Mark selectedResult = studentResults.get(option1 - 1);
-			
+
 			ArrayList<String> components = new ArrayList<String>(selectedResult.getComponentMarkMapping().keySet());
-			
+
 			do {
 				System.out.println();
 				System.out.println("===================================================");
 				System.out.println("| Select which component to enter marks for       |");
 				System.out.println("===================================================");
-				
+
 				for (String component:components) {
 					int index = components.indexOf(component);
 					System.out.printf("| %-3d| %-43s|\n", index + 1, component);
@@ -39,17 +40,17 @@ public class MarkEntry {
 				System.out.println("===================================================");
 				option2 = sc.nextInt();
 				sc.nextLine();
-				
+
 				if (option2 > 0) {
 					String selectedComponent = components.get(option2 - 1);
-					
+
 					if (selectedComponent.equals("Coursework") && selectedResult.getComponentMarkMapping().size() > 2) {
 						System.out.println("Error: Unable to directly allocate marks to Coursework since it has sub components");
 					} else {
 						System.out.printf("Enter the marks for the %s component: (Out of 100)\n", selectedComponent);
 						int marks = sc.nextInt();
 						sc.nextLine();
-						
+
 						if (marks > 100) {
 							System.out.println();
 							System.out.println("Error: Marks entered should not exceed 100.");

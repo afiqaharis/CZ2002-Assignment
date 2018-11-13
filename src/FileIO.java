@@ -9,6 +9,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class FileIO {
+	/*UML:
+	Dependency of FileIO on
+	1. Student
+	2. Course
+	3. Professor
+	*/
 	public static ArrayList<Student> retrieveExistingStudents() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		String fileLine;
@@ -36,9 +42,9 @@ public class FileIO {
 		} catch (IOException e) {
 			System.out.println("IO Error: " + e.getMessage());
 		}
-		return students;	
+		return students;
 	}
-	
+
 	public static void writeNewStudent(Student newStudent) {
 		String file = "src/data/Students.txt";
 		String studName = newStudent.getName();
@@ -55,13 +61,13 @@ public class FileIO {
 			System.out.println("IO Error: " + e.getMessage());
 		}
 	}
-	
+
 	public static ArrayList<Course> retrieveExistingCourses(ArrayList<Professor> professors) {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		String fileLine;
 		String file = "src/data/Courses.txt";
 		Professor selectedProfessor = null;
-		
+
 		try {
 			FileReader frStream = new FileReader(file);
 			BufferedReader brStream = new BufferedReader(frStream);
@@ -71,13 +77,13 @@ public class FileIO {
 				String courseName = courseData[1];
 				int courseType = Integer.parseInt(courseData[2]);
 				String courseCoordinator = courseData[3];
-				
+
 				for (Professor professor:professors) {
 					if (courseCoordinator.equals(professor.getName())) {
 						selectedProfessor = professor;
 					}
 				}
-				
+
 				Course student = new Course(courseCode, courseName, courseType, selectedProfessor);
 				courses.add(student);
 			}
@@ -95,7 +101,7 @@ public class FileIO {
 		}
 		return courses;
 	}
-	
+
 	public static void writeNewCourse(Course newCourse) {
 		String file = "src/data/Courses.txt";
 		String courseCode = newCourse.getCode();
@@ -113,7 +119,7 @@ public class FileIO {
 			System.out.println("IO Error: " + e.getMessage());
 		}
 	}
-	
+
 	public static ArrayList<Professor> retrieveExistingProfessors() {
 		ArrayList<Professor> professors = new ArrayList<Professor>();
 		String fileLine;
@@ -141,9 +147,9 @@ public class FileIO {
 		} catch (IOException e) {
 			System.out.println("IO Error: " + e.getMessage());
 		}
-		return professors;	
+		return professors;
 	}
-	
+
 	public static void writeNewProfessor(Professor newProfessor) {
 		String file = "src/data/Professors.txt";
 		String profName = newProfessor.getName();
