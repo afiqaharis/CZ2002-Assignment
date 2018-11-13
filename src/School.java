@@ -10,16 +10,16 @@ public class School {
 	private ArrayList<Course> courses;
 	Scanner sc = new Scanner(System.in);
 	
-	private boolean validateName(String sentence) {
+	/*private boolean validateName(String sentence) {
 		if (!sentence.matches("[a-zA-Z]+")) {
 			System.out.println();
 			System.out.println("Error: Student name should only contain letters, please try again!");
 			return false;
 		}
 		return true;
-	}
+	}*/
 	
-	private boolean validateNRIC(String nric) {
+	/*private boolean validateNRIC(String nric) {
 		if (nric.length() != 9) {
 			System.out.println();
 			System.out.println("Error: NRIC should contain 9 letters");
@@ -32,9 +32,9 @@ public class School {
 			return false;
 		}
 		return true;
-	}
+	} */
 	
-	private boolean validateEmail(String email) {
+	/*private boolean validateEmail(String email) {
 		String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
 		Matcher matcher;
 		matcher = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE).matcher(email);
@@ -46,9 +46,9 @@ public class School {
 		}
 		
 		return true;
-	}
+	} */
 	
-	private boolean validateCourseCode(String code) {
+	/*private boolean validateCourseCode(String code) {
 		if (code.length() != 6) {
 			System.out.println();
 			System.out.println("Error: Course Code should contain 6 characters");
@@ -61,7 +61,7 @@ public class School {
 			return false;
 		}
 		return true;
-	}
+	} */
 	
 	public School (String name) {
 		this.name = name;
@@ -139,7 +139,7 @@ public class School {
 			System.out.println();
 			System.out.println("Enter the NRIC of the new student:");
 			ic = sc.nextLine().toUpperCase();
-			if (validateNRIC(ic)) nricValidated = true;
+			if (ValidateNric.checkValid(ic)) nricValidated = true;
 		} while (!nricValidated);
 		
 		for (Student student:students) {
@@ -155,14 +155,14 @@ public class School {
 			System.out.println();
 			System.out.println("Enter the name of the new student:");
 			name = sc.nextLine();
-			if (validateName(name)) nameValidated = true;
+			if (ValidateName.checkValid(name)) nameValidated = true;
 		} while (!nameValidated);
 		
 		do {
 			System.out.println();
 			System.out.println("Enter the email address of the new student:");
 			email = sc.nextLine();
-			if (validateEmail(email)) emailValidated = true;
+			if (ValidateEmail.checkValid(email)) emailValidated = true;
 		} while (!emailValidated);
 		
 		Student newStudent = new Student(name, ic, email);
@@ -199,7 +199,7 @@ public class School {
 			System.out.println();
 			System.out.println("Enter the course code of the new course:");
 			courseCode = sc.nextLine().toUpperCase();
-			if (validateCourseCode(courseCode)) courseCodeValidated = true;
+			if (ValidateCourseCode.checkValid(courseCode)) courseCodeValidated = true;
 		} while (!courseCodeValidated);
 		
 		for (Course course:courses) {
