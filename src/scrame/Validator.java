@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Validator {
 	public static boolean validateName(String sentence) {
-		if (!sentence.matches("[a-zA-Z]+")) {
+		if (!sentence.matches("[ a-zA-Z]+")) {
 			Utility.printErrorMessage("Student name should only contain letters, please try again!");
 			return false;
 		}
