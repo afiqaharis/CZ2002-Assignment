@@ -10,7 +10,7 @@ import student.StudentSystem;
  * Initializes and connects each system (Student, Professor and Course) together
  * and serves as the menu for users to interact with. Each system is initialized
  * with data that is loaded from text files.
- * @author joshenlim
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
  * @version 1.0
  * @since 2018-11-14
  */

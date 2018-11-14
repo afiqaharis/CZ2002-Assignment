@@ -8,7 +8,21 @@ import student.Student;
 import java.util.ArrayList;
 import java.lang.Math;
 
+/**
+ * Handles the computation of marks against assessment weights
+ * and the calculation of the course statistics 
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
+ * @version 1.0
+ * @since 2018-11-14
+ */
 public class ComputeGrades {
+	
+	/**
+	 * Calculate the overall marks from each assessment component against its corresponding assessment weightage
+	 * @param assessments			List of all the assessments
+	 * @param componentMarkMap		The map of assessment type and marks
+	 * @return						The overall weighted marks
+	 */
 	public static Integer calculateWeightedMarks(ArrayList<Assessment> assessments, HashMap<String, Integer> componentMarkMap) {
 		int totalMarks = 0;
 		for (Assessment assessment:assessments) {
@@ -21,6 +35,15 @@ public class ComputeGrades {
 		return totalMarks;
 	}
 	
+	/**
+	 * Calculates the course average, gives the average overall results,
+	 * average exam results, average course work results and the number of passes
+	 * and failures for that course
+	 * @param course		The course to be calculated
+	 * @param allStudents	List of students within the course
+	 * @return				A Map of marks against average overall results, average exam results,
+	 * 						average course work results and number of passes and failures
+	 */
 	public static HashMap<String, Double> calculateCourseAverage(Course course, Set<Student> allStudents) {
 		HashMap<String, Double> allOverall = new HashMap<String, Double>();
 		Mark selectedResult = null;
@@ -80,6 +103,11 @@ public class ComputeGrades {
 		return allOverall;
 	}
 	
+	/**
+	 * Get the final grading from the specified marks
+	 * @param overallMarks
+	 * @return	The corresponding grade
+	 */
 	public static String calculateFinalGrade(int overallMarks) {
 		if (overallMarks >= 100) {
 			return "A+";
@@ -106,6 +134,11 @@ public class ComputeGrades {
 		}
 	}
 	
+	/**
+	 * Get the final grade points from the specified marks
+	 * @param overallMarks
+	 * @return		The corresponding grade point
+	 */
 	public static double calculateFinalGradePoint(int overallMarks) {
 		if (overallMarks >= 100) {
 			return 5.0;

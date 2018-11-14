@@ -14,28 +14,90 @@ import student.Student;
 import java.util.HashSet;
 import java.util.HashMap;
 
+/**
+ * Represents a course in the school.
+ * A course consists of lesson groups and also
+ * has its own set of assessments
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
+ * @version 1.0
+ * @since 2018-11-14
+ */
 public class Course {
+	
+	/**
+	 * Default size when a new tutorial or lab group is added to the course
+	 */
 	private static final int DEFAULT_GROUP_SIZE = 10;
+	
+	/**
+	 * Default size when a new lecture group is created, if the course does not have any tutorial or lab groups
+	 */
 	private static final int DEFAULT_LECTURE_SIZE = 50;
+	
+	/**
+	 * Course code of this course
+	 */
 	private String code;
+	
+	/**
+	 * Name of this course
+	 */
 	private String name;
 	
-	private int type;
-	/* Course Types
+	/**
+	 * Type of this course, broken down into:
 	 * 1 : Lecture only
 	 * 2 : Lecture and Tutorial
 	 * 3 : Lecture, Tutorial and Lab
 	 */
+	private int type;
+
+	/**
+	 * Number of groups within this course
+	 */
 	private int numGroups;
+	
+	/**
+	 * Course coordinator of this course
+	 */
 	private Professor courseCoordinator;
 
+	/**
+	 * List of lecture groups in this course
+	 * Every course will only have 1 lecture group
+	 */
 	private ArrayList<Group> lectureGroups;
+	
+	/**
+	 * List of tutorial groups in this course
+	 * Number of tutorial groups will be equal to the number of lab groups
+	 */
 	private ArrayList<Group> tutorialGroups;
+	
+	/**
+	 * List of lab groups in this course
+	 * Number of lab groups will be equal to the number of tutorial groups
+	 */
 	private ArrayList<Group> labGroups;
+	
+	/**
+	 * List of all groups (lecture, tutorial and lab) in this course
+	 */
 	private ArrayList<Group> allGroups = new ArrayList<Group>();
 	
+	/**
+	 * List of the assessments related to this course
+	 */
 	private ArrayList<Assessment> assessments = new ArrayList<Assessment>();
 	
+	/**
+	 * Creates a new course with the specified course code, course name, type, course coordinator and number of tutorial and lab groups
+	 * @param code					Course code of this course
+	 * @param name					Course name of this course
+	 * @param type					Type of this course
+	 * @param courseCoordinator		Course Coordinator of this course
+	 * @param numGroups				Number of tutorial and lab groups 
+	 */
 	public Course(String code, String name, int type, Professor courseCoordinator, int numGroups) {
 		this.code = code;
 		this.name = name;
@@ -62,43 +124,82 @@ public class Course {
 		
 	}
 	
+	/**
+	 * Get the course code of this course
+	 * @return		The course code of this course
+	 */
 	public String getCode() {
 		return this.code;
 	}
 	
+	/**
+	 * Get the course name of this course
+	 * @return		The course name of this course
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
+	/**
+	 * Get the type of this course
+	 * @return		The type of this course
+	 */
 	public int getType() {
 		return this.type;
 	}
 	
+	/**
+	 * Get the number of tutorial and lab groups for this course
+	 * @return		The number of tutorial and lab groups for this course
+	 */
 	public int getNumGroups() {
 		return this.numGroups;
 	}
 	
+	/**
+	 * Get the course coordinator of this course
+	 * @return		The course coordinator of this course
+	 */
 	public Professor getCourseCoordinator() {
 		return this.courseCoordinator;
 	}
 	
+	/**
+	 * Get the list of lecture groups of this course (Will only be length of 1)
+	 * @return		List of lecture groups of this course
+	 */
 	public ArrayList<Group> getLectureGroups() {
 		return this.lectureGroups;
 	}
 	
+	/**
+	 * Get the list of tutorial groups of this course
+	 * @return		List of tutorial groups of this course
+	 */
 	public ArrayList<Group> getTutorialGroups() {
 		return this.tutorialGroups;
 	}
 	
+	/**
+	 * Get the list of lab groups of this course
+	 * @return		List of lab groups of this course
+	 */
 	public ArrayList<Group> getLabGroups() {
 		return this.labGroups;
 	}
 	
+	/**
+	 * Get the list of assessments related to this course
+	 * @return		List of assessments related to this course
+	 */
 	public ArrayList<Assessment> getAssessments() {
 		return this.assessments;
 	}
 	
-	
+	/**
+	 * Register a specified student to this course
+	 * @param student		Student to be registered to this course
+	 */
 	public void registerStudent(Student student) {
 		int found = 0;
 		
@@ -197,6 +298,9 @@ public class Course {
 		}
 	}
 	
+	/**
+	 * Update the assessment components related to this course
+	 */
 	public void updateAssessmentWeightage() {
 		ArrayList<Integer> allWeightages = new ArrayList<Integer>();
 		int newWeightage, sumOfWeightages;
@@ -232,6 +336,9 @@ public class Course {
 		return;
 	}
 	
+	/**
+	 * Add a subcomponent to the course work assessment component of this course
+	 */
 	public void addSubComponent() {
 		ArrayList<String> allNames = new ArrayList<String>();
 		ArrayList<Integer> allWeightages = new ArrayList<Integer>();
@@ -271,6 +378,9 @@ public class Course {
 		return;
 	}
 	
+	/**
+	 * Print the list of students registered within this course by its groups
+	 */
 	public void printStudents() {
 		System.out.println("=============================================");
 		System.out.printf("| Sessions from  %-6s                     |\n", this.code);
@@ -296,6 +406,9 @@ public class Course {
 		allGroups.get(option - 1).printStudents();
 	}
 	
+	/**
+	 * Print the availability of all groups within this course
+	 */
 	public void printAvailability() {
 		System.out.println("====================================================");
 		System.out.printf("| Groups under %-6s                              |\n", this.code);
@@ -320,6 +433,9 @@ public class Course {
 		System.out.println();
 	}
 	
+	/**
+	 * Print the related assessments and their weightage to this course
+	 */
 	public void printWeightages() {		
 		System.out.println();
 		System.out.println("=====================================================");
@@ -340,6 +456,11 @@ public class Course {
 		System.out.println();
 	}
 	
+	/**
+	 * Print the overall statistics of this course, showing the total number of students,
+	 * the total number of passes and failures, the average overall marks, average overall GPA,
+	 * average exam marks, average exam GPA, average course work marks and average course work GPA
+	 */
 	public void printStatistics() {
 		allGroups.clear();
 		if (this.type >= 1) allGroups.addAll(lectureGroups);

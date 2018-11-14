@@ -7,13 +7,33 @@ import scrame.FileIO;
 import scrame.Utility;
 import scrame.Validator;
 
+/**
+ * System to manage all courses within the school
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
+ * @version 1.0
+ * @since 2018-11-14
+ */
 public class CourseSystem {
+	
+	/**
+	 * List of all courses within the system
+	 */
 	private static ArrayList<Course> courses = new ArrayList<Course>();
 	
+	/**
+	 * Creates a new course management system
+	 * @param data			Any existing data which contains the information of all students
+	 * @param allProfs		List of all professors within the system, to find the corresponding course coordinator for the course
+	 */
 	public CourseSystem(ArrayList<String[]> data, ArrayList<Professor> allProfs) {
 		parseData(data, allProfs);
 	}
 	
+	/**
+	 * Parses a text data loads them into the student management system
+	 * @param data		Text data to be loaded in
+	 * @param allProfs	List of all professors within the system, to find the corresponding course coordinator for the course
+	 */
 	private void parseData(ArrayList<String[]> data, ArrayList<Professor> allProfs) {
 		for (String[] courseData:data) {
 			Professor selectedProfessor = null;
@@ -34,11 +54,19 @@ public class CourseSystem {
 		}
 	}
 	
+	/**
+	 * Get list of all courses within this system
+	 * @return		The list of all courses within this system
+	 */
 	@SuppressWarnings("static-access")
 	public ArrayList<Course> getCourses() {
 		return this.courses;
 	}
 	
+	/**
+	 * Retrieve a particular course from the list of courses within this system
+	 * @return		The requested course
+	 */
 	@SuppressWarnings("static-access")
 	public Course getCourse() {
 		int courseOption;
@@ -55,6 +83,10 @@ public class CourseSystem {
 		return null;
 	}
 	
+	/**
+	 * Retrieve a particular course via course code from the list of courses within this system
+	 * @return		The requested course
+	 */
 	public static Course getCourse(String courseCode) {
 		for (Course course:courses) {
 			if (course.getCode().equals(courseCode)) {
@@ -64,6 +96,9 @@ public class CourseSystem {
 		return null;
 	}
 	
+	/**
+	 * Add a new course to the system
+	 */
 	@SuppressWarnings("static-access")
 	public void addCourse() {
 		boolean courseCodeValidated = false, courseNameValidated = false;
@@ -128,6 +163,9 @@ public class CourseSystem {
 		newCourse.printAvailability();
 	}
 	
+	/**
+	 * Adjust the course assessment weightage or add subcomponents to the course's course work assessment
+	 */
 	public void adjustCourseSettings() {
 		Course selectedCourse = this.getCourse();
 		String[] courseSettingsMenu = { "Change Assessment Weightages", "Add Subcomponent to Coursework Assessment" };
@@ -147,26 +185,41 @@ public class CourseSystem {
 		} while (option2 != 0);
 	}
 	
+	/**
+	 * Print the statistics of the selected course
+	 */
 	public void printCourseStatistics() {
 		Course selectedCourse = this.getCourse();
 		selectedCourse.printStatistics();
 	}
 	
+	/**
+	 * Print the assessment components and their corresponding weightages of a selected course
+	 */
 	public void printCourseWeightages() {
 		Course selectedCourse = this.getCourse();
 		selectedCourse.printWeightages();
 	}
 	
+	/**
+	 * Print the overall availability of a selected course
+	 */
 	public void printCourseAvailability() {
 		Course selectedCourse = this.getCourse();
 		selectedCourse.printAvailability();
 	}
 	
+	/**
+	 * Print the list of students of a selected course by its groups
+	 */
 	public void printStudentListByCourseGroup() {
 		Course selectedCourse = this.getCourse();
 		selectedCourse.printStudents();
 	}
 	
+	/**
+	 * Print the list of all courses in the system
+	 */
 	public void printCourses() {
 		if (courses.isEmpty()) {			
 			String noticeMsg = String.format("There are no courses available.");

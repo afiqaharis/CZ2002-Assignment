@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  * Handles the reading and writing of files that serve as data 
- * @author joshenlim
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
  * @version 1.0
  * @since 2018-11-14
  */

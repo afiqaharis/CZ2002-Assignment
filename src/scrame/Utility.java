@@ -2,7 +2,7 @@ package scrame;
 
 /**
  * Contains high level generic functions for all other classes to use.
- * @author joshenlim
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
  * @version 1.0
  * @since 2018-11-14
  */

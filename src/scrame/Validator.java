@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 /**
  * Handles the validation for user inputs. Validation
  * functions are specific to the context of the SCRAME App.
- * @author joshenlim
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
  * @version 1.0
  * @since 2018-11-14
  */

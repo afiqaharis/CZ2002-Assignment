@@ -2,7 +2,7 @@ package scrame;
 
 /**
  * Main SCRAME file to run the whole program
- * @author joshenlim
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
  * @version 1.0
  * @since 2018-11-14
  *

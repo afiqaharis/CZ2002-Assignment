@@ -5,13 +5,30 @@ import scrame.FileIO;
 import scrame.Utility;
 import scrame.Validator;
 
+/**
+ * System to manage all professors employed in the school
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
+ * @version 1.0
+ * @since 2018-11-14
+ */
 public class ProfessorSystem {
+	/**
+	 * List of all the professors within this system
+	 */
 	private static ArrayList<Professor> professors = new ArrayList<Professor>();
 	
+	/**
+	 * Creates a new professor management system
+	 * @param data		Any existing data which contains the information of all professors
+	 */
 	public ProfessorSystem(ArrayList<String[]> data) {
 		parseData(data);
 	}
 	
+	/**
+	 * Parses a text data loads them into the professor management system
+	 * @param data		Text data to be loaded in
+	 */
 	private void parseData(ArrayList<String[]> data) {
 		for (String[] profData:data) {
 			String profName 	= profData[0];
@@ -22,10 +39,18 @@ public class ProfessorSystem {
 		}
 	}
 	
+	/**
+	 * Get list of all professors within this system
+	 * @return		The list of all professors within this system
+	 */
 	public ArrayList<Professor> getProfessors() {
 		return professors;
 	}
 	
+	/**
+	 * Retrieve a particular student from the list of students within this system
+	 * @return		The requests professor
+	 */
 	public static Professor getProfessor() {
 		int profOption;
 		printProfessors();
@@ -41,6 +66,9 @@ public class ProfessorSystem {
 		return null;
 	}
 	
+	/**
+	 * Add a new professor to this system
+	 */
 	@SuppressWarnings("static-access")
 	public void addProfessor() {
 		boolean nameValidated = false, emailValidated = false;
@@ -78,6 +106,9 @@ public class ProfessorSystem {
 		printProfessors();
 	}
 	
+	/**
+	 * Print the list of all professors within this system
+	 */
 	public static void printProfessors() {
 		if (professors.isEmpty()) {	
 			String noticeMsg = String.format("There are currently no professors employed.");

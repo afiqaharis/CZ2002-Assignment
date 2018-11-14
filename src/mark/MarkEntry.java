@@ -3,7 +3,18 @@ import java.util.ArrayList;
 import scrame.Utility;
 import student.Student;
 
+/**
+ * Handles the entering of marks for students
+ * @author Joshen Lim, Muhammad Salleh, Ng Jing Rui, Bryan Yeap
+ * @version 1.0
+ * @since 2018-11-14
+ */
 public class MarkEntry {
+	
+	/**
+	 * Updates the system with the student's marks for each of his course's components by user input
+	 * @param student
+	 */
 	public static void enterStudentMarks(Student student) {	
 		String question;
 		int option1, option2;
