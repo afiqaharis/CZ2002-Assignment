@@ -62,7 +62,7 @@ public class School {
 	public Student getStudent() {
 		int studentOption;
 		this.printStudents();
-		String question = String.format("Select a student from the list: (1 ~ %d)\n", this.students.size());
+		String question = String.format("Select a student from the list (1 ~ %d): ", this.students.size());
 		studentOption = Utility.readIntOption(question);
 		
 		if (studentOption < 1 || studentOption > this.students.size()) {
@@ -119,7 +119,7 @@ public class School {
 		Student newStudent = new Student(name, ic, email);
 		this.students.add(newStudent);
 		FileIO.writeNewStudent(newStudent);
-		String successMsg = String.format("Added new student %s with assigned matriculation number: %s!\n", 
+		String successMsg = String.format("Added new student %s with assigned matriculation number: %s!", 
 				newStudent.getName(), newStudent.getMatricNumber());
 		Utility.printSuccessMessage(successMsg);
 		this.printStudents();
@@ -154,7 +154,7 @@ public class School {
 		Professor newProf = new Professor(name, email);
 		this.professors.add(newProf);
 		FileIO.writeNewProfessor(newProf);
-		String successMsg = String.format("Added new professor: %s!\n", newProf.getName());
+		String successMsg = String.format("Added new professor: %s!", newProf.getName());
 		Utility.printSuccessMessage(successMsg);
 	}
 	
@@ -192,7 +192,7 @@ public class School {
 		
 		System.out.println();
 		String[] courseTypeMenu = { "Lecture Only", "Lecture and Tutorial Only", "Lecture, Tutorial and Lab" };
-		int type = Utility.getUserOption("Select the type for the new course: (1 ~ 3)", courseTypeMenu, false);
+		int type = Utility.getUserOption("Select the type for the new course (1 ~ 3): ", courseTypeMenu, false);
 		
 		int numTutLabGroups = 0;
 		if (type == 2) {
@@ -203,26 +203,26 @@ public class School {
 		
 		System.out.println();
 		this.printProfessors();
-		String question = String.format("Select a course coordinator from the list of professors: (1 ~ %d)\n", this.professors.size());
+		String question = String.format("Select a course coordinator from the list of professors (1 ~ %d): ", this.professors.size());
 		int profIndex = Utility.readIntOption(question);
 		Professor selectedProfessor = this.professors.get(profIndex - 1);
 		
 		Course newCourse = new Course(courseCode, courseName, type, selectedProfessor, numTutLabGroups);
 		this.courses.add(newCourse);
 		FileIO.writeNewCourse(newCourse);
-		String successMsg = String.format("Added new course: %s: %s!\n", newCourse.getCode(), newCourse.getName());
+		String successMsg = String.format("Added new course: %s: %s!", newCourse.getCode(), newCourse.getName());
 		Utility.printSuccessMessage(successMsg);
 		this.printCourses();
 	}
 	
 	public void registerStudentToCourse() {
 		this.printStudentNames();
-		String question1 = String.format("Select which student you\'d like to register: (1 ~ %d)\n", this.students.size());
+		String question1 = String.format("Select which student you\'d like to register (1 ~ %d): ", this.students.size());
 		int studentOption = Utility.readIntOption(question1);
 		Student selectedStudent = students.get(studentOption - 1);
 		
 		this.printCourses();
-		String question2 = String.format("Select which course you\'d like to register %s to: (1 ~ %d)\n", selectedStudent.getName(), this.courses.size());
+		String question2 = String.format("Select which course you\'d like to register %s to: (1 ~ %d)", selectedStudent.getName(), this.courses.size());
 		int courseOption = Utility.readIntOption(question2);
 		Course selectedCourse = courses.get(courseOption - 1);
 		
@@ -231,10 +231,9 @@ public class School {
 	
 	public void printStudents() {
 		if (students.isEmpty()) {			
-			String noticeMsg = String.format("There are currently no students enrolled into %s\n", this.name);
+			String noticeMsg = String.format("There are currently no students enrolled into %s", this.name);
 			Utility.printNoticeMessage(noticeMsg);
 		} else {
-			System.out.println();
 			System.out.println("=======================================================================");
 			System.out.println("| No | Name                | Matric Number | Email                    |");
 			System.out.println("=======================================================================");
@@ -248,10 +247,9 @@ public class School {
 	
 	public void printProfessors() {
 		if (professors.isEmpty()) {	
-			String noticeMsg = String.format("There are currently no professors employed with %s\n", this.name);
+			String noticeMsg = String.format("There are currently no professors employed with %s", this.name);
 			Utility.printNoticeMessage(noticeMsg);
 		} else {
-			System.out.println();
 			System.out.println("======================================================================");
 			System.out.println("| No | Name                | Professor ID | Email                    |");
 			System.out.println("======================================================================");
@@ -265,10 +263,9 @@ public class School {
 	
 	public void printCourses() {
 		if (courses.isEmpty()) {			
-			String noticeMsg = String.format("There are no courses under %s\n", this.name);
+			String noticeMsg = String.format("There are no courses under %s", this.name);
 			Utility.printNoticeMessage(noticeMsg);
 		} else {
-			System.out.println();
 			System.out.println("====================================================================");
 			System.out.println("| No | Course Code | Course Name                                   |");
 			System.out.println("====================================================================");
@@ -282,10 +279,9 @@ public class School {
 	
 	public void printStudentNames() {
 		if (students.isEmpty()) {
-			String noticeMsg = String.format("There are currently no students enrolled into %s\n", this.name);
+			String noticeMsg = String.format("There are currently no students enrolled into %s", this.name);
 			Utility.printNoticeMessage(noticeMsg);
 		} else {
-			System.out.println();
 			System.out.println("============================");
 			System.out.println("| No | Name                |");
 			System.out.println("============================");

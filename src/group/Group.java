@@ -49,13 +49,13 @@ public class Group {
 	
 	public void registerStudent(Student student) {
 		students.add(student);
-		String successMsg = String.format("Added %s to %s Group %d\n", student.getName(), this.type, this.groupId);
+		String successMsg = String.format("Added %s to %s Group %d", student.getName(), this.type, this.groupId);
 		Utility.printSuccessMessage(successMsg);
 	}
 	
 	public void printStudents() {
 		if (students.isEmpty()) {			
-			String noticeMsg = String.format("There are currently no students in %s Group %d\n", this.type, this.groupId);	
+			String noticeMsg = String.format("There are currently no students in %s Group %d", this.type, this.groupId);	
 			Utility.printNoticeMessage(noticeMsg);
 		} else {
 			System.out.println();

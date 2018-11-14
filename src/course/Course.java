@@ -101,53 +101,73 @@ public class Course {
 	
 	public void registerStudent(Student student) {
 		int found = 0;
-		System.out.println();
-		System.out.println("====================================================");
-		System.out.printf("| Available groups under %-6s                    |\n", this.code);
-		System.out.println("====================================================");
-		System.out.println("|    | Type     | ID    | Slots Left               |");
-		System.out.println("====================================================");
 		
-		allGroups.clear();
-		if (this.type >= 1) allGroups.addAll(lectureGroups);
-		if (this.type >= 2) allGroups.addAll(tutorialGroups);
-		if (this.type >= 3) allGroups.addAll(labGroups);
-		
-		for (Group group:allGroups) {
-			int groupSize = group.getSize();
-			int numOfStudents = group.getStudents().size();
-			String slotsLeft = "" + (groupSize - numOfStudents) + " / " + groupSize;
-			int index = allGroups.indexOf(group);
-			System.out.printf("| %-3d| %-9s| %-6d| %-25s|\n", index + 1, group.getType(),
-					group.getGroupId(), slotsLeft);
-		}
-		System.out.println("====================================================");
-		System.out.println();
-		String question = String.format("Select which group to register %s to: (1 ~ %d)\n", student.getName(), allGroups.size());
-		int option = Utility.readIntOption(question);
-		
-		Group selectedGroup = allGroups.get(option - 1);
-		
-		// Check if student already registered to another group of the same type
-		for (Group group:allGroups) {
-			if (group.checkStudentExists(student)) {
-				if ((group.getType().equals(selectedGroup.getType())) && 
-					(group.getGroupId() != selectedGroup.getGroupId())) {
-						String errorMsg = String.format("Student can only be registered to one %s group", selectedGroup.getType());
-						Utility.printErrorMessage(errorMsg);
-						return;
+		if (this.type == 1 ) {
+			// Immediately register student to course's lecture
+			Group lectureGroup = this.lectureGroups.get(0);
+			if (lectureGroup.checkVacancy()) {
+				if (!lectureGroup.checkStudentExists(student)) {
+					lectureGroup.registerStudent(student);
+				} else {
+					Utility.printErrorMessage("Student already exists within the course.");
 				}
-			}
-		}
-		
-		if (selectedGroup.checkVacancy()) {
-			if (!selectedGroup.checkStudentExists(student)) {
-				selectedGroup.registerStudent(student);
 			} else {
-				Utility.printErrorMessage("Student already exists within the group.");
+				Utility.printErrorMessage("Course does not have any slots left!");
 			}
 		} else {
-			Utility.printErrorMessage("Group does not have any slots left!");
+			// Allow student to select which group to register in, excluding lecture
+			allGroups.clear();
+			if (this.type >= 2) allGroups.addAll(tutorialGroups);
+			if (this.type >= 3) allGroups.addAll(labGroups);
+			
+			System.out.println("====================================================");
+			System.out.printf("| Available groups under %-6s                    |\n", this.code);
+			System.out.println("====================================================");
+			System.out.println("|    | Type     | ID    | Slots Left               |");
+			System.out.println("====================================================");
+			
+			for (Group group:allGroups) {
+				int groupSize = group.getSize();
+				int numOfStudents = group.getStudents().size();
+				String slotsLeft = "" + (groupSize - numOfStudents) + " / " + groupSize;
+				int index = allGroups.indexOf(group);
+				System.out.printf("| %-3d| %-9s| %-6d| %-25s|\n", index + 1, group.getType(),
+						group.getGroupId(), slotsLeft);
+			}
+			System.out.println("====================================================");
+			System.out.println();
+			
+			String question = String.format("Select which group to register %s to (1 ~ %d): ", student.getName(), allGroups.size());
+			int option = Utility.readIntOption(question);
+			Group selectedGroup = allGroups.get(option - 1);
+			
+			Group lectureGroup = this.lectureGroups.get(0);
+			if (!lectureGroup.checkStudentExists(student) && lectureGroup.checkVacancy()) {
+				Utility.printNoticeMessage("Registering student to the course for the first time, hence adding student to lecture group as well");
+				lectureGroup.registerStudent(student);
+			}
+			
+			// Check if student already registered to another group of the same type
+			for (Group group:allGroups) {
+				if (group.checkStudentExists(student)) {
+					if ((group.getType().equals(selectedGroup.getType())) && 
+						(group.getGroupId() != selectedGroup.getGroupId())) {
+							String errorMsg = String.format("Student can only be registered to one %s group", selectedGroup.getType());
+							Utility.printErrorMessage(errorMsg);
+							return;
+					}
+				}
+			}
+			
+			if (selectedGroup.checkVacancy()) {
+				if (!selectedGroup.checkStudentExists(student)) {
+					selectedGroup.registerStudent(student);
+				} else {
+					Utility.printErrorMessage("Student already exists within the group.");
+				}
+			} else {
+				Utility.printErrorMessage("Group does not have any slots left!");
+			}
 		}
 		
 		for (Mark result:student.getResults()) {
@@ -172,7 +192,7 @@ public class Course {
 			allWeightages.clear();
 			sumOfWeightages = 0;
 			for (Assessment assessment:assessments) {
-				String question = String.format("Enter the new weightage for the %s assessment:\n", assessment.getType());
+				String question = String.format("Enter the new weightage for the %s assessment: ", assessment.getType());
 				newWeightage = Utility.readIntOption(question);
 				allWeightages.add(newWeightage);
 			}
@@ -188,7 +208,7 @@ public class Course {
 					int index = assessments.indexOf(assessment);
 					assessment.setWeightage(allWeightages.get(index));
 				}
-				String successMsg = String.format("Assessment Weightages for %s have been updated!\n", this.code);
+				String successMsg = String.format("Assessment Weightages for %s have been updated!", this.code);
 				Utility.printSuccessMessage(successMsg);
 				weightageValidated = true;
 			}
@@ -209,10 +229,10 @@ public class Course {
 		numOfSubComponents = Utility.readIntOption(question1);
 		
 		for (int i = 0; i < numOfSubComponents; i++) {
-			String question = String.format("Enter name of Sub Component %d:\n", i + 1);
+			String question = String.format("Enter name of Sub Component %d: ", i + 1);
 			newName = Utility.readStringInput(question);
 			allNames.add(newName);
-			String question2 = String.format("Enter weightage of Sub Component %d:\n", i + 1);
+			String question2 = String.format("Enter weightage of Sub Component %d: ", i + 1);
 			newWeightage = Utility.readIntOption(question2);
 			allWeightages.add(newWeightage);
 		}
@@ -230,14 +250,13 @@ public class Course {
 				courseWork.addSubComponent(newComponent);
 				
 			}
-			String successMsg = String.format("New Components have been added to the Coursework of %s !\n", this.code);
+			String successMsg = String.format("New Components have been added to the Coursework of %s!", this.code);
 			Utility.printSuccessMessage(successMsg);
 		}
 		return;
 	}
 	
 	public void printStudents() {
-		System.out.println();
 		System.out.println("=============================================");
 		System.out.printf("| Sessions from  %-6s                     |\n", this.code);
 		System.out.println("=============================================");
@@ -256,14 +275,13 @@ public class Course {
 		
 		System.out.println("=============================================");
 		System.out.println();
-		String question = String.format("Select which group to view the student list from: (1 ~ %d)\n", allGroups.size());
+		String question = String.format("Select which group to view the student list from (1 ~ %d): ", allGroups.size());
 		int option = Utility.readIntOption(question);
 		
 		allGroups.get(option - 1).printStudents();
 	}
 	
 	public void printAvailability() {
-		System.out.println();
 		System.out.println("====================================================");
 		System.out.printf("| Groups under %-6s                              |\n", this.code);
 		System.out.println("====================================================");
@@ -316,7 +334,6 @@ public class Course {
 		
 		HashMap<String, Double> courseOverall = ComputeGrades.calculateCourseAverage(this, allStudents);
 		
-		System.out.println();
 		System.out.println("=====================================================");
 		System.out.printf("| Statistics For Course: %-27s|\n", this.code);
 		System.out.println("=====================================================");

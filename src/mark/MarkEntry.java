@@ -45,14 +45,14 @@ public class MarkEntry {
 					if (selectedComponent.equals("Coursework") && selectedResult.getComponentMarkMapping().size() > 2) {
 						Utility.printErrorMessage("Unable to directly allocate marks to Coursework since it has sub components");
 					} else {
-						String question = String.format("Enter the marks for the %s component: (Out of 100)\n", selectedComponent);
+						String question = String.format("Enter the marks for the %s component (Out of 100): ", selectedComponent);
 						int marks = Utility.readIntOption(question);
 						
 						if (marks > 100) {
 							Utility.printErrorMessage("Marks entered should not exceed 100.");
 						} else {
 							selectedResult.setComponentMarks(selectedComponent, marks);
-							String successMsg = String.format("Successfully updated marks for the %s component!\n", selectedComponent);							
+							String successMsg = String.format("Successfully updated marks for the %s component!", selectedComponent);							
 							Utility.printSuccessMessage(successMsg);
 						}
 					}

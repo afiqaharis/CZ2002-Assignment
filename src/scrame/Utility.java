@@ -18,6 +18,7 @@ public class Utility {
 				Utility.printErrorMessage("Please enter an integer");
 			}
 		}
+		System.out.println();
 		return input;
 	}
 	
@@ -48,7 +49,6 @@ public class Utility {
 	}
 	
 	private static void printMenu(String title, String[] menu, boolean addBackOption) {
-		System.out.println();
 		printLine(60, '=');
 		System.out.printf("| %-56s |\n", title);
 		printLine(60, '=');
