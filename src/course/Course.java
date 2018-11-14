@@ -222,7 +222,7 @@ public class Course {
 		}
 		
 		if (sumOfWeightages != 100) {
-			Utility.printErrorMessage("Sum of all all weightages has to add to 100");
+			Utility.printErrorMessage("Sum of all weightages has to add to 100");
 		} else {
 			for (String name:allNames) {
 				int index = allNames.indexOf(name);
