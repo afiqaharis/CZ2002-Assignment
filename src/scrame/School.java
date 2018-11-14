@@ -208,9 +208,9 @@ public class School {
 		
 		int numTutLabGroups = 0;
 		if (type == 2) {
-			numTutLabGroups = Utility.readIntOption("Enter the number of tutorial groups you\'d like for this course");
+			numTutLabGroups = Utility.readIntOption("Enter the number of tutorial groups you\'d like for this course: ");
 		} else if (type == 3) {
-			numTutLabGroups = Utility.readIntOption("Enter the number of tutorial and lab groups you\'d like for this course");
+			numTutLabGroups = Utility.readIntOption("Enter the number of tutorial and lab groups you\'d like for this course: ");
 		}
 		
 		System.out.println();
@@ -233,7 +233,7 @@ public class School {
 		FileIO.writeData("Courses", courseData);
 		String successMsg = String.format("Added new course: %s: %s!", newCourse.getCode(), newCourse.getName());
 		Utility.printSuccessMessage(successMsg);
-		this.printCourses();
+		newCourse.printAvailability();
 	}
 	
 	public void registerStudentToCourse() {
@@ -337,7 +337,6 @@ public class School {
 	}
 	
 	public void studentMarkEntry() {
-		// do some jazz here
 		Student selectedStudent = this.getStudent();
 		MarkEntry.enterStudentMarks(selectedStudent);
 	}

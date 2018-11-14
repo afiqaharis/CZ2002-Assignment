@@ -295,6 +295,7 @@ public class Course {
 	public void printAvailability() {
 		System.out.println("====================================================");
 		System.out.printf("| Groups under %-6s                              |\n", this.code);
+		System.out.printf("| Coordinated By: %-10s                       |\n", this.courseCoordinator.getName());
 		System.out.println("====================================================");
 		System.out.println("|    | Type     | ID    | Vacancy                  |");
 		System.out.println("====================================================");
@@ -312,6 +313,7 @@ public class Course {
 					group.getGroupId(), slotsLeft);
 		}
 		System.out.println("====================================================");
+		System.out.println();
 	}
 	
 	public void printWeightages() {		
@@ -331,6 +333,7 @@ public class Course {
 			}
 		}
 		System.out.println("=====================================================");
+		System.out.println();
 	}
 	
 	public void printStatistics() {
@@ -362,5 +365,6 @@ public class Course {
 		System.out.printf("| Average Coursework Marks   : %-21.1f|\n", courseOverall.get("avgCoursework"));
 		System.out.printf("| Average Coursework GPA     : %-21.1f|\n", courseOverall.get("avgGPACoursework"));
 		System.out.println("=====================================================");
+		System.out.println();
 	}
 }
