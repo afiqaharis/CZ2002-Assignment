@@ -76,31 +76,44 @@ public class School {
 	public void addStudent() {
 		boolean nameValidated = false, nricValidated = false, emailValidated = false;
 		String ic, name, email;
+		System.out.println();
 		
 		do {
-			System.out.println();
+			boolean syntaxCheck = false, alreadyExistsCheck = true;
 			ic = Utility.readStringInput("Enter the NRIC of the new student: ").toUpperCase();
-			if (Validator.validateNRIC(ic)) nricValidated = true;
+			syntaxCheck = Validator.validateNRIC(ic);
+			for (Student student:students) {
+				if (student.getIc().equals(ic)) {
+					Utility.printErrorMessage("There already exists a student with the NRIC you entered!");
+					alreadyExistsCheck = false;
+				}
+			}
+			nricValidated = syntaxCheck && alreadyExistsCheck;
 		} while (!nricValidated);
 		
-		for (Student student:students) {
-			if (student.getIc().equals(ic)) {
-				Utility.printErrorMessage("There already exists a student with the NRIC you entered!");
-				return;
-			}
-		}	
+		System.out.println();
 		
 		do {
-			System.out.println();
 			name = Utility.readStringInput("Enter the name of the new student: ");
 			if (Validator.validateName(name)) nameValidated = true;
 		} while (!nameValidated);
 		
+		System.out.println();
+		
 		do {
-			System.out.println();
+			boolean syntaxCheck = false, alreadyExistsCheck = true;
 			email = Utility.readStringInput("Enter the email address of the new student: ");
-			if (Validator.validateEmail(email)) emailValidated = true;
-		} while (!emailValidated);
+			syntaxCheck = Validator.validateEmail(email);
+			
+			for (Student student:students) {
+				if (student.getEmail().equals(email)) {
+					Utility.printErrorMessage("There already exists a student with the email you entered!");
+					alreadyExistsCheck = false;
+				}
+			}
+			
+			emailValidated = syntaxCheck && alreadyExistsCheck;
+		} while (!emailValidated);	
 		
 		Student newStudent = new Student(name, ic, email);
 		this.students.add(newStudent);
@@ -112,11 +125,30 @@ public class School {
 	}
 	
 	public void addProfessor() {
-		System.out.println();
-		String name = Utility.readStringInput("Enter the name of the new professor: ");
+		boolean nameValidated = false, emailValidated = false;
+		String name, email;
+		
+		do {
+			name = Utility.readStringInput("Enter the name of the new professor: ");
+			if (Validator.validateName(name)) nameValidated = true;
+		} while (!nameValidated);
 		
 		System.out.println();
-		String email = Utility.readStringInput("Enter the email address of the new professor: ");
+		
+		do {
+			boolean syntaxCheck = false, alreadyExistsCheck = true;
+			email = Utility.readStringInput("Enter the email address of the new professor: ");
+			syntaxCheck = Validator.validateEmail(email);
+			
+			for (Professor professor:professors) {
+				if (professor.getEmail().equals(email)) {
+					Utility.printErrorMessage("There already exists a professor with the email you entered!");
+					alreadyExistsCheck = false;
+				}
+			}
+			
+			emailValidated = syntaxCheck && alreadyExistsCheck;
+		} while (!emailValidated);
 		
 		Professor newProf = new Professor(name, email);
 		this.professors.add(newProf);
@@ -126,38 +158,45 @@ public class School {
 	}
 	
 	public void addCourse() {
-		boolean courseCodeValidated = false;
+		boolean courseCodeValidated = false, courseNameValidated = false;
 		String courseCode, courseName;
+		System.out.println();
 		
 		do {
-			System.out.println();
+			boolean syntaxCheck = false, alreadyExistsCheck = true;
 			courseCode = Utility.readStringInput("Enter the course code of the new course: ").toUpperCase();
-			if (Validator.validateCourseCode(courseCode)) courseCodeValidated = true;
+			syntaxCheck = Validator.validateCourseCode(courseCode);
+			for (Course course:courses) {
+				if (course.getCode().equals(courseCode)) {
+					Utility.printErrorMessage("There already exists a course with the code you entered!");
+					alreadyExistsCheck = false;
+				}
+			}
+			courseCodeValidated = syntaxCheck && alreadyExistsCheck;
 		} while (!courseCodeValidated);
 		
-		for (Course course:courses) {
-			if (course.getCode().equals(courseCode)) {
-				Utility.printErrorMessage("There already exists a course with the code you entered!");
-				return;
-			}
-		}
-		
 		System.out.println();
-		courseName = Utility.readStringInput("Enter the name of the new course: ");
 		
-		for (Course course:courses) {
-			if (course.getName().equals(name)) {
-				Utility.printErrorMessage("There already exists a course with the name you entered!");
-				return;
+		do {
+			boolean alreadyExistsCheck = true;
+			courseName = Utility.readStringInput("Enter the name of the new course: ");
+			for (Course course:courses) {
+				if (course.getName().equals(name)) {
+					Utility.printErrorMessage("There already exists a course with the name you entered!");
+					alreadyExistsCheck = false;
+				}
 			}
-		}
+			courseNameValidated = alreadyExistsCheck;
+		} while (!courseNameValidated);
 		
 		System.out.println();
 		String[] courseTypeMenu = { "Lecture Only", "Lecture and Tutorial Only", "Lecture, Tutorial and Lab" };
 		int type = Utility.getUserOption("Select the type for the new course: (1 ~ 3)", courseTypeMenu, false);
 		
 		int numTutLabGroups = 0;
-		if (type > 1) {
+		if (type == 2) {
+			numTutLabGroups = Utility.readIntOption("Enter the number of tutorial groups you\'d like for this course");
+		} else if (type == 3) {
 			numTutLabGroups = Utility.readIntOption("Enter the number of tutorial and lab groups you\'d like for this course");
 		}
 		
