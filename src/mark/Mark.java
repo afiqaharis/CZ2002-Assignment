@@ -74,7 +74,7 @@ public class Mark {
 	
 	/**
 	 * Get the overall marks of this course result
-	 * @return
+	 * @return		The overall marks of this course result
 	 */
 	public int getOverallMarks() {
 		return this.overallMarks;

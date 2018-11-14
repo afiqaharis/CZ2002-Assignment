@@ -30,6 +30,11 @@ public class SCRAME {
 	private CourseSystem courseSystem;
 	
 	/**
+	 * Constructs a new SCRAME
+	 */
+	public SCRAME() {}
+	
+	/**
 	 * Entry function called from SCRAMEApp. 
 	 */
 	public void start() {

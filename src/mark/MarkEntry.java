@@ -13,7 +13,7 @@ public class MarkEntry {
 	
 	/**
 	 * Updates the system with the student's marks for each of his course's components by user input
-	 * @param student
+	 * @param student		The student who's marks to be entered with
 	 */
 	public static void enterStudentMarks(Student student) {	
 		String question;

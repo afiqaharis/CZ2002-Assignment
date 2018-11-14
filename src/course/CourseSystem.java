@@ -85,7 +85,8 @@ public class CourseSystem {
 	
 	/**
 	 * Retrieve a particular course via course code from the list of courses within this system
-	 * @return		The requested course
+	 * @param courseCode	The course code of the course that the user wants to find
+	 * @return				The requested course
 	 */
 	public static Course getCourse(String courseCode) {
 		for (Course course:courses) {

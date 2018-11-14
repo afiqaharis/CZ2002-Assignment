@@ -105,8 +105,8 @@ public class ComputeGrades {
 	
 	/**
 	 * Get the final grading from the specified marks
-	 * @param overallMarks
-	 * @return	The corresponding grade
+	 * @param overallMarks		Overall marks of the student for a course
+	 * @return					The corresponding grade
 	 */
 	public static String calculateFinalGrade(int overallMarks) {
 		if (overallMarks >= 100) {
@@ -136,8 +136,8 @@ public class ComputeGrades {
 	
 	/**
 	 * Get the final grade points from the specified marks
-	 * @param overallMarks
-	 * @return		The corresponding grade point
+	 * @param overallMarks		Overall marks of the student for a course
+	 * @return					The corresponding grade point
 	 */
 	public static double calculateFinalGradePoint(int overallMarks) {
 		if (overallMarks >= 100) {

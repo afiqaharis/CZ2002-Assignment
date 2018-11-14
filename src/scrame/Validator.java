@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public class Validator {
 	/**
 	 * Validate the specified name
-	 * @param 		Name to be validated
-	 * @return		True if name only contains characters
+	 * @param sentence	Name to be validated
+	 * @return			True if name only contains characters
 	 */
 	public static boolean validateName(String sentence) {
 		if (!sentence.matches("[ a-zA-Z]+")) {
@@ -25,7 +25,7 @@ public class Validator {
 	
 	/**
 	 * Validate the specified NRIC
-	 * @param 		NRIC to be validated
+	 * @param nric	NRIC to be validated
 	 * @return		True if the NRIC contains only 9 letters, and NRIC begins/ends with an alphabet
 	 */
 	public static boolean validateNRIC(String nric) {
