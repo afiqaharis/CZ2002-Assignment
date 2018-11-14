@@ -1,3 +1,4 @@
+package scrame;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,13 +9,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import course.Course;
+import person.Professor;
+import person.Student;
+
 public class FileIO {
+	private static final String filePathStudent 	= "data/Students.txt"; 
+	private static final String filePathCourse 		= "data/Courses.txt"; 
+	private static final String filePathProfessor 	= "data/Professors.txt"; 
+	
+	
 	public static ArrayList<Student> retrieveExistingStudents() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		String fileLine;
-		String file = "src/data/Students.txt";
 		try {
-			FileReader frStream = new FileReader(file);
+			FileReader frStream = new FileReader(filePathStudent);
 			BufferedReader brStream = new BufferedReader(frStream);
 			while ((fileLine = brStream.readLine()) != null) {
 				String[] studentData = fileLine.split(";");
@@ -28,7 +37,7 @@ public class FileIO {
 			brStream.close();
 		} catch (FileNotFoundException e){
 			System.out.println("File Error: " + e.getMessage());
-			File newFile = new File(file);
+			File newFile = new File(filePathStudent);
 			try {
 				newFile.createNewFile();
 			} catch (IOException e1) {
@@ -41,14 +50,13 @@ public class FileIO {
 	}
 	
 	public static void writeNewStudent(Student newStudent) {
-		String file = "src/data/Students.txt";
 		String studName = String.format("%-16s", newStudent.getName());
 		String studIc = String.format("%-11s", newStudent.getIc());
 		String studMatric = String.format("%-11s", newStudent.getMatricNumber());
 		String studEmail = newStudent.getEmail();
 		String studentData = studName + ";" + studIc + ";" + studMatric + ";" + studEmail;
 		try {
-			FileWriter			fwStream = new FileWriter(file, true);
+			FileWriter			fwStream = new FileWriter(filePathStudent, true);
 			BufferedWriter		bwStream = new BufferedWriter(fwStream);
 			PrintWriter			pwStream = new PrintWriter(bwStream);
 			pwStream.println(studentData);
@@ -61,11 +69,10 @@ public class FileIO {
 	public static ArrayList<Course> retrieveExistingCourses(ArrayList<Professor> professors) {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		String fileLine;
-		String file = "src/data/Courses.txt";
 		Professor selectedProfessor = null;
 		
 		try {
-			FileReader 		frStream = new FileReader(file);
+			FileReader 		frStream = new FileReader(filePathCourse);
 			BufferedReader 	brStream = new BufferedReader(frStream);
 			while ((fileLine = brStream.readLine()) != null) {
 				String[] courseData = fileLine.split(";");
@@ -87,7 +94,7 @@ public class FileIO {
 			brStream.close();
 		} catch (FileNotFoundException e){
 			System.out.println("Error reading the file: " + e.getMessage());
-			File newFile = new File(file);
+			File newFile = new File(filePathCourse);
 			try {
 				newFile.createNewFile();
 			} catch (IOException e1) {
@@ -100,7 +107,6 @@ public class FileIO {
 	}
 	
 	public static void writeNewCourse(Course newCourse) {
-		String file = "src/data/Courses.txt";
 		String courseCode 	= String.format("%-8s", newCourse.getCode());
 		String courseName 	= String.format("%-43s", newCourse.getName());
 		String courseType 	= String.format("%-3d", newCourse.getType());
@@ -109,7 +115,7 @@ public class FileIO {
 
 		String courseData = courseCode + ";" + courseName + ";" + courseType + ";" + profName + ";" + numGroups;
 		try {
-			FileWriter			fwStream = new FileWriter(file, true);
+			FileWriter			fwStream = new FileWriter(filePathCourse, true);
 			BufferedWriter		bwStream = new BufferedWriter(fwStream);
 			PrintWriter			pwStream = new PrintWriter(bwStream);
 			pwStream.println(courseData);
@@ -122,9 +128,8 @@ public class FileIO {
 	public static ArrayList<Professor> retrieveExistingProfessors() {
 		ArrayList<Professor> professors = new ArrayList<Professor>();
 		String fileLine;
-		String file = "src/data/Professors.txt";
 		try {
-			FileReader frStream = new FileReader(file);
+			FileReader frStream = new FileReader(filePathProfessor);
 			BufferedReader brStream = new BufferedReader(frStream);
 			while ((fileLine = brStream.readLine()) != null) {
 				String[] profData = fileLine.split(";");
@@ -137,7 +142,7 @@ public class FileIO {
 			brStream.close();
 		} catch (FileNotFoundException e){
 			System.out.println("File Error: " + e.getMessage());
-			File newFile = new File(file);
+			File newFile = new File(filePathProfessor);
 			try {
 				newFile.createNewFile();
 			} catch (IOException e1) {
@@ -150,13 +155,12 @@ public class FileIO {
 	}
 	
 	public static void writeNewProfessor(Professor newProfessor) {
-		String file = "src/data/Professors.txt";
 		String profName = newProfessor.getName();
 		String profId = newProfessor.getId();
 		String profEmail = newProfessor.getEmail();
 		String profData = profName + ";" + profId + ";" + profEmail;
 		try {
-			FileWriter			fwStream = new FileWriter(file, true);
+			FileWriter			fwStream = new FileWriter(filePathProfessor, true);
 			BufferedWriter		bwStream = new BufferedWriter(fwStream);
 			PrintWriter			pwStream = new PrintWriter(bwStream);
 			pwStream.println(profData);

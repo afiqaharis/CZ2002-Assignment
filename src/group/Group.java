@@ -1,17 +1,20 @@
+package group;
 import java.util.ArrayList;
 import java.util.Random;
+
+import person.Student;
+import scrame.Utility;
 
 public class Group {
 	private ArrayList<Student> students = new ArrayList<Student>();
 	private int size = 10;
 	private int groupId;
-	private String type;	
+	protected String type;	
 	
-	public Group(String type, int size) {
+	public Group(int size) {
 		Random rand = new Random();
 		this.groupId = 10000 + rand.nextInt(80000);
 		this.size = size;
-		this.type = type;
 	}
 	
 	public int getSize() {

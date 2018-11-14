@@ -1,14 +1,31 @@
+package course;
 import java.util.ArrayList;
 import java.util.Set;
+
+import group.Group;
+import group.Lab;
+import group.Lecture;
+import group.Tutorial;
+import mark.Mark;
+import person.Professor;
+import person.Student;
+import scrame.Utility;
+
 import java.util.HashSet;
 import java.util.HashMap;
 
 public class Course {
-	private static final int GROUP_SIZE = 10;
-	private static final int LECTURE_SIZE = 50;
+	private static final int DEFAULT_GROUP_SIZE = 10;
+	private static final int DEFAULT_LECTURE_SIZE = 50;
 	private String code;
 	private String name;
+	
 	private int type;
+	/* Course Types
+	 * 1 : Lecture only
+	 * 2 : Lecture and Tutorial
+	 * 3 : Lecture, Tutorial and Lab
+	 */
 	private int numGroups;
 	private Professor courseCoordinator;
 
@@ -25,30 +42,23 @@ public class Course {
 		this.type = type;
 		this.numGroups = numGroups;
 		this.courseCoordinator = courseCoordinator;
+		this.lectureGroups = new ArrayList<Group>();
 		
-		if (this.type >= 1) {
-			lectureGroups = new ArrayList<Group>();
-			if (numGroups == 0) {
-				lectureGroups.add(new Group(GroupType.LEC.toString(), LECTURE_SIZE));
-			} else {
-				lectureGroups.add(new Group(GroupType.LEC.toString(), numGroups * GROUP_SIZE));
-			}
-		}
+		if (numGroups == 0) this.lectureGroups.add(new Lecture(DEFAULT_LECTURE_SIZE));
+		else this.lectureGroups.add(new Lecture(numGroups * DEFAULT_GROUP_SIZE));
+		
 		if (this.type >= 2) {
-			tutorialGroups = new ArrayList<Group>();
-			for (int i = 0; i < numGroups; i++) {
-				tutorialGroups.add(new Group(GroupType.TUT.toString(), GROUP_SIZE));
-			}
-		}
-		if (this.type >= 3) {
-			labGroups = new ArrayList<Group>();
-			for (int i = 0; i < numGroups; i++) {
-				labGroups.add(new Group(GroupType.LAB.toString(), GROUP_SIZE));
-			}
+			this.tutorialGroups = new ArrayList<Group>();
+			for (int i = 0; i < numGroups; i++) this.tutorialGroups.add(new Tutorial(DEFAULT_GROUP_SIZE));
 		}
 		
-		 assessments.add(new Assessment("Exam", 60));
-		 assessments.add(new Assessment("Coursework", 40));
+		if (this.type >= 3) {
+			this.labGroups = new ArrayList<Group>();
+			for (int i = 0; i < numGroups; i++) this.labGroups.add(new Lab(DEFAULT_GROUP_SIZE));
+		}
+		
+		 this.assessments.add(new Assessment("Exam", 60));
+		 this.assessments.add(new Assessment("Coursework", 40));
 		
 	}
 	

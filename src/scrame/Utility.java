@@ -1,3 +1,4 @@
+package scrame;
 public class Utility {
 	
 	@SuppressWarnings("resource")

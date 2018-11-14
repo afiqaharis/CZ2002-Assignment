@@ -1,7 +1,15 @@
+package person;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
+
+import course.Assessment;
+import course.ComputeGrades;
+import course.Course;
+import mark.Mark;
+import scrame.School;
+import scrame.Utility;
 
 public class Student {
 	private String name;

@@ -1,4 +1,9 @@
+package scrame;
 import java.util.ArrayList;
+
+import course.Course;
+import person.Professor;
+import person.Student;
 
 public class School {
 	private String name;

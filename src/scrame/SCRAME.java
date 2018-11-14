@@ -1,3 +1,8 @@
+package scrame;
+import course.Course;
+import mark.MarkEntry;
+import person.Student;
+
 public class SCRAME {
 	private School school;
 
@@ -50,7 +55,7 @@ public class SCRAME {
 		Course selectedCourse;
 		String[] viewRecordMenu = {
 			"View All Students", "View All Courses", "View all Professors",
-			"View Student List By Course", "View Course Availability",
+			"View Student List By Course Group", "View Course Availability",
 			"View Course Assessments", "View Course Statistics"
 		};
 		do {
