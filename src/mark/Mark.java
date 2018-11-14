@@ -4,6 +4,8 @@ import java.util.HashMap;
 public class Mark {
 	private String courseCode;
 	private String courseName;
+	private String overallGrade;
+	private int overallMarks = 0;
 	private HashMap<String, Integer> componentMarkMap = new HashMap<String, Integer>();
 	
 	public Mark(String courseCode, String courseName) {
@@ -19,6 +21,22 @@ public class Mark {
 		return this.courseName;
 	}
 	
+	public String getOverallGrade() {
+		return this.overallGrade;
+	}
+	
+	public int getOverallMarks() {
+		return this.overallMarks;
+	}
+	
+	public void setOverallMarks(int marks) {
+		this.overallMarks = marks;
+	}
+	
+	public void setOverallGrade(String grade) {
+		this.overallGrade = grade;
+	}
+	
 	public HashMap<String, Integer> getComponentMarkMapping() {
 		return this.componentMarkMap;
 	}
@@ -26,4 +44,5 @@ public class Mark {
 	public void setComponentMarks(String componentType, int marks) {
 		componentMarkMap.put(componentType, marks);
 	}
+
 }

@@ -1,6 +1,7 @@
 package scrame;
 import java.util.ArrayList;
 
+import mark.Mark;
 import mark.MarkEntry;
 import professor.*;
 import student.*;
@@ -361,6 +362,25 @@ public class School {
 	
 	public void printStudentTranscript() {
 		Student selectedStudent = this.getStudent();
-		selectedStudent.printTranscript(this);
+		for (Mark result:selectedStudent.getResults()) {
+			
+			Course course = this.getCourse(result.getCourseCode());
+			ArrayList<Assessment> courseworkSubComponents = course.getAssessments().get(1).getSubComponents();
+			
+			if (courseworkSubComponents.size() > 0) {
+				int courseWorkMarks = ComputeGrades.calculateWeightedMarks(
+						courseworkSubComponents, result.getComponentMarkMapping());
+				result.setComponentMarks("Coursework", courseWorkMarks);
+			}
+			
+			ArrayList<Assessment> allAssessments = course.getAssessments();
+			int overallMarks = ComputeGrades.calculateWeightedMarks(allAssessments, result.getComponentMarkMapping());
+			result.setOverallMarks(overallMarks);
+			
+			String overallGrade = ComputeGrades.calculateFinalGrade(overallMarks);
+			result.setOverallGrade(overallGrade);
+		}
+		
+		selectedStudent.printTranscript();
 	}
 }

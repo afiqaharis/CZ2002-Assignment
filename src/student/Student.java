@@ -4,12 +4,9 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
 
-import course.Assessment;
-import course.ComputeGrades;
-import course.Course;
+import course.*;
 import mark.Mark;
-import scrame.School;
-import scrame.Utility;
+import scrame.*;
 
 public class Student {
 	private String name;
@@ -65,6 +62,7 @@ public class Student {
 	public void addResult(Course course) {
 		Mark newCourseMark = new Mark(course.getCode(), course.getName());
 		ArrayList<Assessment> courseAssessments = course.getAssessments();
+		
 		for (Assessment assessment:courseAssessments) {
 			newCourseMark.setComponentMarks(assessment.getType(), 0);
 			if (assessment.getSubComponents().size() > 0) {
@@ -80,7 +78,7 @@ public class Student {
 		return this.results;
 	}
 	
-	public void printTranscript(School school) {
+	public void printTranscript() {
 		if (results.isEmpty()) {
 			Utility.printErrorMessage("Student has not been registered to any course.");
 		} else {
@@ -92,25 +90,11 @@ public class Student {
 			System.out.printf("| Matric Number : %-40s|\n", this.matricNumber);
 			System.out.printf("| Email Address : %-40s|\n", this.email);
 			
-			for (Mark result:results) {
-				
-				Course course = school.getCourse(result.getCourseCode());
-				ArrayList<Assessment> courseworkSubComponents = course.getAssessments().get(1).getSubComponents();
-				
-				if (courseworkSubComponents.size() > 0) {
-					int courseWorkMarks = ComputeGrades.calculateWeightedMarks(
-							courseworkSubComponents, result.getComponentMarkMapping());
-					result.setComponentMarks("Coursework", courseWorkMarks);
-				}
-				
-				ArrayList<Assessment> allAssessments = course.getAssessments();
-				int overallMarks = ComputeGrades.calculateWeightedMarks(allAssessments, result.getComponentMarkMapping());
-				String overallGrade = ComputeGrades.calculateFinalGrade(overallMarks);
-				
+			for (Mark result:results) {				
 				System.out.println("|---------------------------------------------------------|");
 				System.out.printf("| Course Code  :  %-40s|\n", result.getCourseCode());
 				System.out.printf("| Course Name  :  %-40s|\n", result.getCourseName());
-				System.out.printf("| Overall Mark :  %-40s|\n", overallMarks + "/100 (" + overallGrade + ")");
+				System.out.printf("| Overall Mark :  %-40s|\n", result.getOverallMarks() + "/100 (" + result.getOverallGrade() + ")");
 				System.out.println("|                                                         |");
 				System.out.println("| Marks Breakdown                                         |");
 				HashMap<String, Integer> componentMarkMap = result.getComponentMarkMapping();
