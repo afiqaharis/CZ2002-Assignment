@@ -13,4 +13,3 @@ Kelly Cheong;U1788356S;KELC98@e.ntu.edu.sg
 Kelvin Tan;U1793325T;KTAN372@e.ntu.edu.sg
 Marcus Choo;U1763349M;MCHOO776@e.ntu.edu.sg
 Chang Chern Jie;U1787543D;CHERNJ55@e.ntu.edu.sg
-Mandy;U1810864O;MANDY@e.ntu.edu.sg
