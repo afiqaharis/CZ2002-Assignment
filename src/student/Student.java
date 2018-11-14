@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
 
-import course.*;
 import mark.Mark;
 import scrame.*;
 
@@ -59,18 +58,7 @@ public class Student {
 		return this.ic;
 	}
 	
-	public void addResult(Course course) {
-		Mark newCourseMark = new Mark(course.getCode(), course.getName());
-		ArrayList<Assessment> courseAssessments = course.getAssessments();
-		
-		for (Assessment assessment:courseAssessments) {
-			newCourseMark.setComponentMarks(assessment.getType(), 0);
-			if (assessment.getSubComponents().size() > 0) {
-				for (Assessment subAssessment:assessment.getSubComponents()) {
-					newCourseMark.setComponentMarks(subAssessment.getType(), 0);
-				}
-			}
-		}
+	public void addResult(Mark newCourseMark) {
 		results.add(newCourseMark);
 	}
 	

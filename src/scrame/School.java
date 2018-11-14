@@ -337,6 +337,7 @@ public class School {
 	}
 	
 	public void studentMarkEntry() {
+		// do some jazz here
 		Student selectedStudent = this.getStudent();
 		MarkEntry.enterStudentMarks(selectedStudent);
 	}

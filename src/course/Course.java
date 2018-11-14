@@ -178,7 +178,18 @@ public class Course {
 		}
 		
 		if (found == 0) {
-			student.addResult(this);
+			Mark newCourseMark = new Mark(this.getCode(), this.getName());
+			ArrayList<Assessment> courseAssessments = this.getAssessments();
+			
+			for (Assessment assessment:courseAssessments) {
+				newCourseMark.setComponentMarks(assessment.getType(), 0);
+				if (assessment.getSubComponents().size() > 0) {
+					for (Assessment subAssessment:assessment.getSubComponents()) {
+						newCourseMark.setComponentMarks(subAssessment.getType(), 0);
+					}
+				}
+			}
+			student.addResult(newCourseMark);
 		}
 	}
 	
