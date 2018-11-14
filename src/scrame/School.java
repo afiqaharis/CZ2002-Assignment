@@ -222,7 +222,7 @@ public class School {
 		Student selectedStudent = students.get(studentOption - 1);
 		
 		this.printCourses();
-		String question2 = String.format("Select which course you\'d like to register %s to: (1 ~ %d)", selectedStudent.getName(), this.courses.size());
+		String question2 = String.format("Select which course you\'d like to register %s to (1 ~ %d): ", selectedStudent.getName(), this.courses.size());
 		int courseOption = Utility.readIntOption(question2);
 		Course selectedCourse = courses.get(courseOption - 1);
 		
