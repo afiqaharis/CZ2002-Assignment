@@ -1,7 +1,4 @@
 package scrame;
-import course.Course;
-import mark.MarkEntry;
-import person.Student;
 
 public class SCRAME {
 	private School school;
@@ -33,15 +30,13 @@ public class SCRAME {
 				school.registerStudentToCourse();
 				break;
 			case 4:
-				printCourseSettingsMenu();
+				school.adjustCourseSettings();
 				break;
 			case 5:
-				Student selectedStudent = school.getStudent();
-				MarkEntry.enterStudentMarks(selectedStudent);
+				school.studentMarkEntry();
 				break;
 			case 6:
-				selectedStudent = school.getStudent();
-				selectedStudent.printTranscript(school);
+				school.printStudentTranscript();
 				break;
 			default:
 				Utility.printErrorMessage("Error: Please choose from the options in the list.");
@@ -52,7 +47,6 @@ public class SCRAME {
 	
 	private void printViewRecordsMenu() {
 		int option2;
-		Course selectedCourse;
 		String[] viewRecordMenu = {
 			"View All Students", "View All Courses", "View all Professors",
 			"View Student List By Course Group", "View Course Availability",
@@ -71,20 +65,16 @@ public class SCRAME {
 					school.printProfessors();
 					break;
 				case 4:
-					selectedCourse = school.getCourse();
-					selectedCourse.printStudents();
+					school.printStudentListByCourseGroup();
 					break;
 				case 5:
-					selectedCourse = school.getCourse();
-					selectedCourse.printAvailability();
+					school.printCourseAvailability();
 					break;
 				case 6:
-					selectedCourse = school.getCourse();
-					selectedCourse.printWeightages();
+					school.printCourseWeightages();
 					break;
 				case 7:
-					selectedCourse = school.getCourse();
-					selectedCourse.printStatistics();
+					school.printCourseStatistics();
 					break;
 				case 0:
 					break;
@@ -106,25 +96,6 @@ public class SCRAME {
 					break;
 				case 3:
 					school.addProfessor();
-					break;
-				case 0:
-					break;
-			}
-		} while (option2 != 0);
-	}
-	
-	private void printCourseSettingsMenu() {
-		Course selectedCourse = school.getCourse();
-		String[] courseSettingsMenu = { "Change Assessment Weightages", "Add Subcomponent to Coursework Assessment" };
-		int option2;
-		do {
-			option2 = Utility.getUserOption(String.format("Select which setting you\'d like to change under %-6s", selectedCourse.getCode()), courseSettingsMenu, true);
-			switch(option2) {
-				case 1:
-					selectedCourse.updateAssessmentWeightage();
-					break;
-				case 2:
-					selectedCourse.addSubComponent();
 					break;
 				case 0:
 					break;

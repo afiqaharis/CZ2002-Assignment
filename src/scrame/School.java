@@ -2,6 +2,7 @@ package scrame;
 import java.util.ArrayList;
 
 import course.Course;
+import mark.MarkEntry;
 import person.Professor;
 import person.Student;
 
@@ -293,5 +294,54 @@ public class School {
 	    	}
 			System.out.println("============================");
 		}
+	}
+	
+	public void printStudentListByCourseGroup() {
+		Course selectedCourse = this.getCourse();
+		selectedCourse.printStudents();
+	}
+	
+	public void printCourseAvailability() {
+		Course selectedCourse = this.getCourse();
+		selectedCourse.printAvailability();
+	}
+	
+	public void printCourseWeightages() {
+		Course selectedCourse = this.getCourse();
+		selectedCourse.printWeightages();
+	}
+	
+	public void printCourseStatistics() {
+		Course selectedCourse = this.getCourse();
+		selectedCourse.printStatistics();
+	}
+	
+	public void studentMarkEntry() {
+		Student selectedStudent = this.getStudent();
+		MarkEntry.enterStudentMarks(selectedStudent);
+	}
+	
+	public void adjustCourseSettings() {
+		Course selectedCourse = this.getCourse();
+		String[] courseSettingsMenu = { "Change Assessment Weightages", "Add Subcomponent to Coursework Assessment" };
+		int option2;
+		do {
+			option2 = Utility.getUserOption(String.format("Select which setting you\'d like to change under %-6s", selectedCourse.getCode()), courseSettingsMenu, true);
+			switch(option2) {
+				case 1:
+					selectedCourse.updateAssessmentWeightage();
+					break;
+				case 2:
+					selectedCourse.addSubComponent();
+					break;
+				case 0:
+					break;
+			}
+		} while (option2 != 0);
+	}
+	
+	public void printStudentTranscript() {
+		Student selectedStudent = this.getStudent();
+		selectedStudent.printTranscript(this);
 	}
 }
