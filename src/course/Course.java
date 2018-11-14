@@ -110,9 +110,11 @@ public class Course {
 					lectureGroup.registerStudent(student);
 				} else {
 					Utility.printErrorMessage("Student already exists within the course.");
+					return;
 				}
 			} else {
 				Utility.printErrorMessage("Course does not have any slots left!");
+				return;
 			}
 		} else {
 			// Allow student to select which group to register in, excluding lecture
@@ -141,12 +143,6 @@ public class Course {
 			int option = Utility.readIntOption(question);
 			Group selectedGroup = allGroups.get(option - 1);
 			
-			Group lectureGroup = this.lectureGroups.get(0);
-			if (!lectureGroup.checkStudentExists(student) && lectureGroup.checkVacancy()) {
-				Utility.printNoticeMessage("Registering student to the course for the first time, hence adding student to lecture group as well");
-				lectureGroup.registerStudent(student);
-			}
-			
 			// Check if student already registered to another group of the same type
 			for (Group group:allGroups) {
 				if (group.checkStudentExists(student)) {
@@ -164,10 +160,18 @@ public class Course {
 					selectedGroup.registerStudent(student);
 				} else {
 					Utility.printErrorMessage("Student already exists within the group.");
+					return;
 				}
 			} else {
 				Utility.printErrorMessage("Group does not have any slots left!");
+				return;
 			}
+		}
+		
+		Group lectureGroup = this.lectureGroups.get(0);
+		if (!lectureGroup.checkStudentExists(student) && lectureGroup.checkVacancy()) {
+			Utility.printNoticeMessage("Registering student to the course for the first time, hence adding student to lecture group as well");
+			lectureGroup.registerStudent(student);
 		}
 		
 		for (Mark result:student.getResults()) {
@@ -236,7 +240,7 @@ public class Course {
 		String newName;
 		
 		System.out.println();
-		String question1 = String.format("How many sub components would you like to add?");
+		String question1 = String.format("How many sub components would you like to add?: ");
 		numOfSubComponents = Utility.readIntOption(question1);
 		
 		for (int i = 0; i < numOfSubComponents; i++) {

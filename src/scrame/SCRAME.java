@@ -1,27 +1,56 @@
 package scrame;
-
 import course.Course;
 import course.CourseSystem;
 import professor.ProfessorSystem;
 import student.Student;
 import student.StudentSystem;
 
-public class SCRAME {
-	private ProfessorSystem professorSystem;
-	private StudentSystem studentSystem;
-	private CourseSystem courseSystem;
+/**
+ * Main program of the Student Course Registration And Mark Entry System.
+ * Initializes and connects each system (Student, Professor and Course) together
+ * and serves as the menu for users to interact with. Each system is initialized
+ * with data that is loaded from text files.
+ * @author joshenlim
+ * @version 1.0
+ * @since 2018-11-14
+ */
 
+public class SCRAME {
+	/**
+	 * Professor System Controller: Stores the context of all professors in the system.
+	 */
+	private ProfessorSystem professorSystem;
+	/**
+	 * Student System Controller: Stores the context of all students in the system.
+	 */
+	private StudentSystem studentSystem;
+	/**
+	 * Course System Controller: Stores the context of all courses in the system.
+	 */
+	private CourseSystem courseSystem;
+	
+	/**
+	 * Entry function called from SCRAMEApp. 
+	 */
+	public void start() {
+		initialize();
+		while(true) printMainMenu();
+	}
+
+	/**
+	 * Initializes the system with existing data and updates the corresponding objects.
+	 */
 	private void initialize() {
 		professorSystem = new ProfessorSystem(FileIO.readData("Professors"));
 		studentSystem = new StudentSystem(FileIO.readData("Students"));
 		courseSystem = new CourseSystem(FileIO.readData("Courses"), professorSystem.getProfessors());
 	}
 	
-	public void start() {
-		initialize();
-		while(true) printMainMenu();
-	}
-	
+	/**
+	 * Prints out the main menu for users to interact with. Allows users to view and add records,
+	 * register students to courses, adjust course assessment settings, enter marks for students
+	 * and print student transcript.
+	 */
 	private void printMainMenu() {
 		Student selectedStudent;
 		Course selectedCourse;
@@ -63,6 +92,11 @@ public class SCRAME {
 		
 	}
 	
+	/**
+	 * Second level menu when user selects view records in the main menu. Allows users to view all students,
+	 * view all courses, view all professors, view student list by course group, view each course's availability,
+	 * view course assessment criteria and view course statistics.
+	 */
 	@SuppressWarnings("static-access")
 	private void printViewRecordsMenu() {
 		int option2;
@@ -101,6 +135,10 @@ public class SCRAME {
 		} while (option2 != 0);
 	}
 	
+	/**
+	 * Second level menu when user selects add records in the main menu. Allow users to add new student, 
+	 * add new course and add new professor.
+	 */
 	private void printAddRecordsMenu() {
 		String[] addRecordMenu = { "Add New Student", "Add New Course", "Add New Professor" };
 		int option2;

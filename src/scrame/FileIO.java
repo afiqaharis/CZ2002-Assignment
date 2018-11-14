@@ -9,10 +9,29 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+/**
+ * Handles the reading and writing of files that serve as data 
+ * @author joshenlim
+ * @version 1.0
+ * @since 2018-11-14
+ */
 public class FileIO {
+	
+	/**
+	 * Fixed path name to the text file
+	 */
 	private static final String FILE_PATH 	= "data/";
+	
+	/**
+	 * Fixed file type for the data
+	 */
 	private static final String FILE_TYPE 	= ".txt";
 	
+	/**
+	 * Writes data to the specified file name
+	 * @param fileName	Name of the file to be written to
+	 * @param data		Data to be written with
+	 */
 	public static void writeData(String fileName, String[] data) {
 		String dataline = "";
 		for (int i = 0; i < data.length; i++) {
@@ -29,6 +48,12 @@ public class FileIO {
 		}
 	}
 	
+	/**
+	 * Reads the data from a specified file
+	 * @param fileName	Name of the file to be read from
+	 * @return			Data from the file, each line in the file is stored as an array of strings.
+	 * 					The entire file will be stored as an ArrayList of array of strings.
+	 */
 	public static ArrayList<String[]> readData(String fileName) {
 		ArrayList<String[]> data = new ArrayList<String[]>();	
 		String fileLine;

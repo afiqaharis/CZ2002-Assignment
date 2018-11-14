@@ -1,43 +1,33 @@
 package mark;
 import java.util.ArrayList;
-
 import scrame.Utility;
 import student.Student;
 
 public class MarkEntry {
 	public static void enterStudentMarks(Student student) {	
+		String question;
 		int option1, option2;
 		ArrayList<Mark> studentResults = student.getResults();
 		if (studentResults.isEmpty()) {
 			Utility.printErrorMessage("Student has not been registered to any course.");
+			return;
 		} else {
-			System.out.println();
-			System.out.println("===========================================================");
-			System.out.printf("| Select which course to enter marks for %-17s|\n", student.getName());
-			System.out.println("===========================================================");
+			String[] menu1 = new String[studentResults.size()];
 			for (Mark result:studentResults) {
-				int index = studentResults.indexOf(result);
-				System.out.printf("| %-3d| %-6s| %-43s|\n", index + 1, result.getCourseCode(), result.getCourseName());
+				menu1[studentResults.indexOf(result)] = String.format(" %-6s| %-43s", result.getCourseCode(), result.getCourseName());
 			}
-			System.out.println("===========================================================");
-			option1 = Utility.readIntOption("Select an option from the above list: ");
+			question = String.format("Select which course to enter marks for %-17s", student.getName());
+			option1 = Utility.getUserOption(question, menu1, false);
 			Mark selectedResult = studentResults.get(option1 - 1);
 			
 			ArrayList<String> components = new ArrayList<String>(selectedResult.getComponentMarkMapping().keySet());
 			
 			do {
-				System.out.println();
-				System.out.println("===================================================");
-				System.out.println("| Select which component to enter marks for       |");
-				System.out.println("===================================================");
-				
+				String[] menu2 = new String[components.size()];
 				for (String component:components) {
-					int index = components.indexOf(component);
-					System.out.printf("| %-3d| %-43s|\n", index + 1, component);
+					menu2[components.indexOf(component)] = component;
 				}
-				System.out.println("| 0  | Back                                       |");
-				System.out.println("===================================================");
-				option2 = Utility.readIntOption("Select an option from the above list: ");
+				option2 = Utility.getUserOption("Select which component to enter marks for", menu2, true);
 				
 				if (option2 > 0) {
 					String selectedComponent = components.get(option2 - 1);
@@ -45,7 +35,7 @@ public class MarkEntry {
 					if (selectedComponent.equals("Coursework") && selectedResult.getComponentMarkMapping().size() > 2) {
 						Utility.printErrorMessage("Unable to directly allocate marks to Coursework since it has sub components");
 					} else {
-						String question = String.format("Enter the marks for the %s component (Out of 100): ", selectedComponent);
+						question = String.format("Enter the marks for the %s component (Out of 100): ", selectedComponent);
 						int marks = Utility.readIntOption(question);
 						
 						if (marks > 100) {
