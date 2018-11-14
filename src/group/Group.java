@@ -2,8 +2,8 @@ package group;
 import java.util.ArrayList;
 import java.util.Random;
 
-import person.Student;
 import scrame.Utility;
+import student.Student;
 
 public class Group {
 	private ArrayList<Student> students = new ArrayList<Student>();

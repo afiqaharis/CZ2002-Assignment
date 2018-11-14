@@ -1,10 +1,11 @@
 package scrame;
 import java.util.ArrayList;
 
-import course.Course;
 import mark.MarkEntry;
-import person.Professor;
-import person.Student;
+import professor.*;
+import student.*;
+import course.*;
+
 
 public class School {
 	private String name;
@@ -12,11 +13,11 @@ public class School {
 	private ArrayList<Professor> professors;
 	private ArrayList<Course> courses;
 	
-	public School (String name) {
+	public School (String name, ProfessorSystem professorSystem, StudentSystem studentSystem, CourseSystem courseSystem) {		
 		this.name = name;
-		this.students = FileIO.retrieveExistingStudents();
-		this.professors = FileIO.retrieveExistingProfessors();
-		this.courses = FileIO.retrieveExistingCourses(this.professors);
+		this.students = studentSystem.getStudents();
+		this.professors = professorSystem.getProfessors();
+		this.courses = courseSystem.getCourses();
 	}
 	
 	public String getName() {
@@ -118,7 +119,15 @@ public class School {
 		
 		Student newStudent = new Student(name, ic, email);
 		this.students.add(newStudent);
-		FileIO.writeNewStudent(newStudent);
+		
+		String[] studData = {
+				String.format("%-16s", newStudent.getName()),
+				String.format("%-11s", newStudent.getIc()),
+				String.format("%-11s", newStudent.getMatricNumber()),
+				newStudent.getEmail()
+		};
+		
+		FileIO.writeData("Students", studData);
 		String successMsg = String.format("Added new student %s with assigned matriculation number: %s!", 
 				newStudent.getName(), newStudent.getMatricNumber());
 		Utility.printSuccessMessage(successMsg);
@@ -151,10 +160,12 @@ public class School {
 			emailValidated = syntaxCheck && alreadyExistsCheck;
 		} while (!emailValidated);
 		
+		
 		Professor newProf = new Professor(name, email);
 		this.professors.add(newProf);
-		FileIO.writeNewProfessor(newProf);
-		String successMsg = String.format("Added new professor: %s!", newProf.getName());
+		String[] profData = {newProf.getName(), newProf.getEmail()};
+		FileIO.writeData("Professors", profData);
+		String successMsg = String.format("Added new professor: %s!", name);
 		Utility.printSuccessMessage(successMsg);
 	}
 	
@@ -209,7 +220,16 @@ public class School {
 		
 		Course newCourse = new Course(courseCode, courseName, type, selectedProfessor, numTutLabGroups);
 		this.courses.add(newCourse);
-		FileIO.writeNewCourse(newCourse);
+		
+		String[] courseData = {
+			String.format("%-8s", newCourse.getCode()),
+			String.format("%-43s", newCourse.getName()),
+			String.format("%-3d", newCourse.getType()),
+			String.format("%-19s", newCourse.getCourseCoordinator().getName()),
+			String.format("%s", newCourse.getNumGroups())
+		};
+		
+		FileIO.writeData("Courses", courseData);
 		String successMsg = String.format("Added new course: %s: %s!", newCourse.getCode(), newCourse.getName());
 		Utility.printSuccessMessage(successMsg);
 		this.printCourses();
@@ -242,6 +262,7 @@ public class School {
 	    				student.getName(), student.getMatricNumber(), student.getEmail());
 	    	}
 			System.out.println("=======================================================================");
+			System.out.println();
 		}
 	}
 	
@@ -258,6 +279,7 @@ public class School {
 	    				professor.getName(), professor.getId(), professor.getEmail());
 	    	}
 			System.out.println("======================================================================");
+			System.out.println();
 		}
 	}
 	
@@ -274,6 +296,7 @@ public class School {
 	    			course.getCode(), course.getName());
 	    	}
 			System.out.println("====================================================================");
+			System.out.println();
 		}
 	}
 	

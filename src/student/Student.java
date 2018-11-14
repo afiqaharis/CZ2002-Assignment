@@ -1,4 +1,4 @@
-package person;
+package student;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.ArrayList;

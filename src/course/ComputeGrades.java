@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import mark.Mark;
-import person.Student;
+import student.Student;
 
 import java.util.ArrayList;
 import java.lang.Math;
@@ -25,7 +25,7 @@ public class ComputeGrades {
 		HashMap<String, Double> allOverall = new HashMap<String, Double>();
 		Mark selectedResult = null;
 		int numOfStudents = allStudents.size();
-		int sumExam = 0, sumCoursework = 0, sumOverall = 0;
+		int sumExam = 0, sumCoursework = 0, sumOverall = 0, sumPasses = 0, sumFailures = 0;
 		double sumGPAExam = 0, sumGPACoursework = 0, sumGPAOverall = 0;
 		
 		for (Student student:allStudents) {
@@ -45,6 +45,10 @@ public class ComputeGrades {
 			int examMarks = selectedResult.getComponentMarkMapping().get("Exam");
 			int courseworkMarks = selectedResult.getComponentMarkMapping().get("Coursework");
 			int overallMarks = calculateWeightedMarks(allAssessments, selectedResult.getComponentMarkMapping());
+			
+			if (overallMarks > 63) sumPasses++;
+			else sumFailures++;
+			
 			sumExam += examMarks;
 			sumCoursework += courseworkMarks;
 			sumOverall += overallMarks;
@@ -69,6 +73,9 @@ public class ComputeGrades {
 		allOverall.put("avgGPAExam", avgGPAExam);
 		allOverall.put("avgGPACoursework", avgGPACoursework);
 		allOverall.put("avgGPAOverall", avgGPAOverall);
+		
+		allOverall.put("numPasses", (double) sumPasses);
+		allOverall.put("numFailures", (double) sumFailures);
 		
 		return allOverall;
 	}

@@ -1,4 +1,4 @@
-package person;
+package professor;
 import java.util.Calendar;
 import java.util.Random;
 

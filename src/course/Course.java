@@ -7,9 +7,9 @@ import group.Lab;
 import group.Lecture;
 import group.Tutorial;
 import mark.Mark;
-import person.Professor;
-import person.Student;
+import professor.Professor;
 import scrame.Utility;
+import student.Student;
 
 import java.util.HashSet;
 import java.util.HashMap;
@@ -339,6 +339,8 @@ public class Course {
 		System.out.println("=====================================================");
 		System.out.printf("| Course Coordinator         : %-21s|\n", this.courseCoordinator.getName());
 		System.out.printf("| Total Number of Students   : %-21d|\n", allStudents.size());
+		System.out.printf("| Total Number Passes        : %-21d|\n", (int) Math.round(courseOverall.get("numPasses")));
+		System.out.printf("| Total Number Failures      : %-21d|\n", (int) Math.round(courseOverall.get("numFailures")));
 		System.out.println("|                                                   |");
 		System.out.printf("| Average Overall Marks      : %-21.1f|\n", courseOverall.get("avgOverall"));
 		System.out.printf("| Average Overall GPA        : %-21.1f|\n", courseOverall.get("avgGPAOverall"));

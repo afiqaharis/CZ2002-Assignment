@@ -1,8 +1,8 @@
 package mark;
 import java.util.ArrayList;
 
-import person.Student;
 import scrame.Utility;
+import student.Student;
 
 public class MarkEntry {
 	public static void enterStudentMarks(Student student) {	

@@ -1,10 +1,17 @@
 package scrame;
 
+import course.CourseSystem;
+import professor.ProfessorSystem;
+import student.StudentSystem;
+
 public class SCRAME {
 	private School school;
 
 	private void initialize() {
-		school = new School("SCSE");
+		ProfessorSystem professorSystem = new ProfessorSystem(FileIO.readData("Professors"));
+		StudentSystem studentSystem = new StudentSystem(FileIO.readData("Students"));
+		CourseSystem courseSystem = new CourseSystem(FileIO.readData("Courses"), professorSystem.getProfessors());
+		school = new School("SCSE", professorSystem, studentSystem, courseSystem);
 	}
 	
 	public void start() {
