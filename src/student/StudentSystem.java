@@ -182,7 +182,7 @@ public class StudentSystem {
 	 * Computes the marks and grades of the student before
 	 * firing printTranscript method from the selected student
 	 */
-	public void printStudentTranscript() {
+	public void generateStudentTranscript() {
 		Student selectedStudent = this.getStudent();
 		ArrayList<Mark> studentResults = selectedStudent.getResults();
 

@@ -88,7 +88,7 @@ public class SCRAME {
 				studentSystem.studentMarkEntry();
 				break;
 			case 6:
-				studentSystem.printStudentTranscript();
+				studentSystem.generateStudentTranscript();
 				break;
 			default:
 				Utility.printErrorMessage("Error: Please choose from the options in the list.");
