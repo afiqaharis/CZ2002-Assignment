@@ -181,10 +181,14 @@ public class StudentSystem {
 	 */
 	public void printStudentTranscript() {
 		Student selectedStudent = this.getStudent();
+		ArrayList<Mark> studentResults = selectedStudent.getResults();
 
-		for (Mark result:selectedStudent.getResults()) {
-			Course course = CourseSystem.getCourse(result.getCourseCode());
-			ArrayList<Assessment> courseworkSubComponents = course.getAssessments().get(1).getSubComponents();
+		for (Mark result:studentResults) {
+			String courseCode = result.getCourseCode();
+			Course course = CourseSystem.getCourse(courseCode);
+			ArrayList<Assessment> courseAssessments = course.getAssessments();
+			Assessment courseworkComponent = courseAssessments.get(1);
+			ArrayList<Assessment> courseworkSubComponents = courseworkComponent.getSubComponents();
 
 			if (courseworkSubComponents.size() > 0) {
 				int courseWorkMarks = ComputeGrades.calculateWeightedMarks(
