@@ -148,11 +148,16 @@ public class Student {
 			System.out.printf("| Matric Number : %-40s|\n", this.matricNumber);
 			System.out.printf("| Email Address : %-40s|\n", this.email);
 			
-			for (Mark result:results) {				
+			for (Mark result:results) {			
+				String courseCode = result.getCourseCode();
+				String courseName = result.getCourseName();
+				int overallMarks = result.getOverallMarks();
+				String overallGrade = result.getOverallGrade();
+				
 				System.out.println("|---------------------------------------------------------|");
-				System.out.printf("| Course Code  :  %-40s|\n", result.getCourseCode());
-				System.out.printf("| Course Name  :  %-40s|\n", result.getCourseName());
-				System.out.printf("| Overall Mark :  %-40s|\n", result.getOverallMarks() + "/100 (" + result.getOverallGrade() + ")");
+				System.out.printf("| Course Code  :  %-40s|\n", courseCode);
+				System.out.printf("| Course Name  :  %-40s|\n", courseName);
+				System.out.printf("| Overall Mark :  %-40s|\n", overallMarks + "/100 (" + overallGrade + ")");
 				System.out.println("|                                                         |");
 				System.out.println("| Marks Breakdown                                         |");
 				HashMap<String, Integer> componentMarkMap = result.getComponentMarkMapping();
