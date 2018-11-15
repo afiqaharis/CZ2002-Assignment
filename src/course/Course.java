@@ -197,6 +197,22 @@ public class Course {
 	}
 	
 	/**
+	 * Get the Exam assessment component from the list of assessments
+	 * @return		The exam assessment component
+	 */
+	public Assessment getExamAssessmentComponent() {
+		return this.assessments.get(0);
+	}
+	
+	/**
+	 * Get the Coursework assessment component from the list of assessments
+	 * @return		The coursework assessment component
+	 */
+	public Assessment getCourseworkAssessmentComponent() {
+		return this.assessments.get(1);
+	}
+	
+	/**
 	 * Register a specified student to this course
 	 * @param student		Student to be registered to this course
 	 */

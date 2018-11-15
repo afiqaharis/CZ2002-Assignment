@@ -1,6 +1,7 @@
 package student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import course.*;
 import mark.*;
@@ -178,6 +179,8 @@ public class StudentSystem {
 
 	/**
 	 * Prints the transcript of the selected student
+	 * Computes the marks and grades of the student before
+	 * firing printTranscript method from the selected student
 	 */
 	public void printStudentTranscript() {
 		Student selectedStudent = this.getStudent();
@@ -186,18 +189,17 @@ public class StudentSystem {
 		for (Mark result:studentResults) {
 			String courseCode = result.getCourseCode();
 			Course course = CourseSystem.getCourse(courseCode);
-			ArrayList<Assessment> courseAssessments = course.getAssessments();
-			Assessment courseworkComponent = courseAssessments.get(1);
+			Assessment courseworkComponent = course.getCourseworkAssessmentComponent();
 			ArrayList<Assessment> courseworkSubComponents = courseworkComponent.getSubComponents();
+			HashMap<String, Integer> componentMarkMapping = result.getComponentMarkMapping();
 
 			if (courseworkSubComponents.size() > 0) {
-				int courseWorkMarks = ComputeGrades.calculateWeightedMarks(
-						courseworkSubComponents, result.getComponentMarkMapping());
+				int courseWorkMarks = ComputeGrades.calculateWeightedMarks(courseworkSubComponents, componentMarkMapping);
 				result.setComponentMarks("Coursework", courseWorkMarks);
 			}
 
 			ArrayList<Assessment> allAssessments = course.getAssessments();
-			int overallMarks = ComputeGrades.calculateWeightedMarks(allAssessments, result.getComponentMarkMapping());
+			int overallMarks = ComputeGrades.calculateWeightedMarks(allAssessments, componentMarkMapping);
 			result.setOverallMarks(overallMarks);
 
 			String overallGrade = ComputeGrades.calculateFinalGrade(overallMarks);
